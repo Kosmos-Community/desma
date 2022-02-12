@@ -1,8 +1,10 @@
 import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
 import { useState } from 'react';
+import validator from 'validator';
 
 const LoginScreen = () => {
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [errorMsg, setErrorMsg] = useState('');
 
   const onInputChange = (event) => {
     const updatedValue = {};
@@ -12,8 +14,18 @@ const LoginScreen = () => {
 
   const onFormSubmit = () => {
     if (loginForm.email && loginForm.password) {
-      console.log(loginForm);
+      if (!validator.isEmail(loginForm.email)) {
+        setErrorMsg('Invalid Email');
+        return;
+      }
+
+      setErrorMsg('');
+      // Api Call
+      return;
     }
+
+    setErrorMsg('Please fill all fields');
+    return;
   };
 
   return (
@@ -53,6 +65,23 @@ const LoginScreen = () => {
       </Button>
       <Text small>
         Need an account? <Link href="/auth/register">Register</Link>
+      </Text>
+      <Text
+        small
+        weight="bold"
+        color="white"
+        hidden={errorMsg == ''}
+        css={{
+          width: '100%',
+          padding: '.2rem',
+          backgroundColor: '#EF4444',
+          position: 'absolute',
+          bottom: '0',
+          left: '0',
+          textAlign: 'center',
+        }}
+      >
+        {errorMsg}
       </Text>
     </Container>
   );
