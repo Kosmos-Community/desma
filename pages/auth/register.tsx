@@ -29,14 +29,16 @@ const RegisterScreen = () => {
       justify="center"
       css={{ maxWidth: '350px', height: '100vh' }}
     >
-      <Text
-        h1
-        css={{
-          textGradient: '45deg, $blue500 -20%, $pink500 50%',
-        }}
-      >
-        Desma
-      </Text>
+      <Link href="/">
+        <Text
+          h1
+          css={{
+            textGradient: '45deg, $blue500 -20%, $pink500 50%',
+          }}
+        >
+          <Link href="/">Desma</Link>
+        </Text>
+      </Link>
       <Spacer y={2} />
       <Input
         labelPlaceholder="Email"

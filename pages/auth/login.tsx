@@ -29,7 +29,7 @@ const LoginScreen = () => {
           textGradient: '45deg, $blue500 -20%, $pink500 50%',
         }}
       >
-        Desma
+        <Link href="/">Desma</Link>
       </Text>
       <Spacer y={2} />
       <Input
