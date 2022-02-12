@@ -1,5 +1,6 @@
 import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
 import { useState } from 'react';
+import validator from 'validator';
 
 const RegisterScreen = () => {
   const [registerForm, setRegisterForm] = useState({
@@ -7,6 +8,7 @@ const RegisterScreen = () => {
     password: '',
     confirmPassword: '',
   });
+  const [errorMsg, setErrorMsg] = useState('');
 
   const onInputChange = (event) => {
     const updatedValue = {};
@@ -16,10 +18,23 @@ const RegisterScreen = () => {
 
   const onRegister = () => {
     if (registerForm.email && registerForm.password && registerForm.confirmPassword) {
-      if (registerForm.password == registerForm.confirmPassword) {
-        console.log(registerForm);
+      if (!validator.isEmail(registerForm.email)) {
+        setErrorMsg('Email is not valid');
+        return;
       }
+
+      if (registerForm.password != registerForm.confirmPassword) {
+        setErrorMsg("Passwords doesn't match");
+        return;
+      }
+
+      setErrorMsg('');
+      // Send API Call
+      return;
     }
+
+    setErrorMsg('Please fill all fields');
+    return;
   };
 
   return (
@@ -29,16 +44,15 @@ const RegisterScreen = () => {
       justify="center"
       css={{ maxWidth: '350px', height: '100vh' }}
     >
-      <Link href="/">
-        <Text
-          h1
-          css={{
-            textGradient: '45deg, $blue500 -20%, $pink500 50%',
-          }}
-        >
-          <Link href="/">Desma</Link>
-        </Text>
-      </Link>
+      <Text
+        h1
+        css={{
+          textGradient: '45deg, $blue500 -20%, $pink500 50%',
+        }}
+      >
+        <Link href="/">Desma</Link>
+      </Text>
+
       <Spacer y={2} />
       <Input
         labelPlaceholder="Email"
@@ -66,6 +80,23 @@ const RegisterScreen = () => {
       </Button>
       <Text small>
         Already have an account? <Link href="/auth/login">Login</Link>
+      </Text>
+      <Text
+        small
+        weight="bold"
+        color="white"
+        hidden={errorMsg == ''}
+        css={{
+          width: '100%',
+          padding: '.2rem',
+          backgroundColor: '#EF4444',
+          position: 'absolute',
+          bottom: '0',
+          left: '0',
+          textAlign: 'center',
+        }}
+      >
+        {errorMsg}
       </Text>
     </Container>
   );
