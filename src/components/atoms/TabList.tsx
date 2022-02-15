@@ -1,4 +1,4 @@
-import { cloneElement } from 'react';
+import { cloneElement, Fragment } from 'react';
 import { Container } from '@nextui-org/react';
 import { ITabChild } from '../../interfaces/ITabs';
 
@@ -18,9 +18,9 @@ export const TabList = ({ children }: ITabChild) => {
         borderBottom: '2px solid $gray200',
       }}
     >
-      {panels.map((panel, index) => {
-        return cloneElement(panel, { index });
-      })}
+      {panels.map((panel, index) => (
+        <Fragment key={index}>{cloneElement(panel, { index })}</Fragment>
+      ))}
     </Container>
   );
 };
