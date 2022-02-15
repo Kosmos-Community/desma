@@ -1,7 +1,11 @@
 import { Container, Text } from '@nextui-org/react';
 import { SpaceBox } from '../src/components/atoms/SpaceBox';
+import { Tab } from '../src/components/atoms/Tab';
+import { TabList } from '../src/components/atoms/TabList';
+import { TabPanel } from '../src/components/atoms/TabPanel';
+import { TabPanels } from '../src/components/atoms/TabPanels';
 import Table from '../src/components/molecules/Table';
-import BaseTabs from '../src/components/molecules/Tabs';
+import { Tabs } from '../src/components/molecules/Tabs';
 
 const tableRows = [
   {
@@ -45,8 +49,19 @@ const Index = () => {
       >
         Desma: a design system manager
       </Text>
-      <BaseTabs />
-      <Table tableHeaders={tableHeaders} tableRows={tableRows} />
+      <Tabs>
+        <TabList>
+          <Tab>1</Tab>
+          <Tab>2</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>1</TabPanel>
+          <TabPanel>
+            <Text>test</Text>
+            <Table tableHeaders={tableHeaders} tableRows={tableRows} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       {' 🚀'}
     </Container>
   );

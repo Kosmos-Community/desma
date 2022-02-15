@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid } from '@nextui-org/react';
+import { Grid } from '@nextui-org/react';
 import { TableItem } from '../atoms/TableItem';
 
 interface ITable {
