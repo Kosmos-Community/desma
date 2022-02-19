@@ -8,6 +8,7 @@ interface IProjectCard {
 const ProjectCard = ({ name }: IProjectCard) => {
   return (
     <Card
+      clickable
       css={{
         margin: 0,
         padding: 0,
