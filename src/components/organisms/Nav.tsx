@@ -1,8 +1,16 @@
-import { Container, Text, Link, Button, Avatar } from '@nextui-org/react';
+import { Container, Text, Link, Button, Avatar, keyframes } from '@nextui-org/react';
 import { useState } from 'react';
+import { HiHome, HiUserCircle, HiOutlineLogout } from 'react-icons/hi';
 
 const Nav = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
+  let onMouseLeavingAvatar;
+
+  const slideIn = keyframes({
+    '0%': { transform: 'translate-y: -5px' },
+    '100%': { transform: 'translate-y: 0' },
+  });
 
   const loggedOutOptions = (
     <div style={{ display: 'flex' }}>
@@ -20,15 +28,59 @@ const Nav = () => {
   );
 
   const loggedInOptions = (
-    <div>
+    <div
+      style={{ position: 'relative' }}
+      onMouseOver={() => {
+        clearTimeout(onMouseLeavingAvatar);
+        setAvatarHovered(true);
+      }}
+      onMouseLeave={() => {
+        onMouseLeavingAvatar = setTimeout(() => {
+          setAvatarHovered(false);
+        }, 200);
+      }}
+    >
       <Avatar
-        src="https://reyes.cool/_next/image?url=%2Favatar.jpeg&w=96&q=75"
+        src="https://pbs.twimg.com/profile_images/1495197577691684869/YajzOKkB_400x400.jpg"
         text="Reyes"
         color="gradient"
         bordered
         squared
         css={{ cursor: 'pointer' }}
       />
+      <Button.Group
+        size="md"
+        vertical
+        css={{
+          position: 'absolute',
+          top: '100%',
+          right: 0,
+          transform: 'translate(0, 0)',
+          display: avatarHovered ? 'flex' : 'none',
+          animation: `${slideIn} 1s`,
+          zIndex: 1000,
+        }}
+      >
+        <Button>
+          <Link href="/dashboard" css={{ color: 'white' }}>
+            <HiHome style={{ marginRight: '.5rem' }} />
+            Home
+          </Link>
+        </Button>
+
+        <Button>
+          <Link href="#" css={{ color: 'white' }}>
+            <HiUserCircle style={{ marginRight: '.5rem' }} />
+            Account
+          </Link>
+        </Button>
+        <Button>
+          <Link href="#" css={{ color: 'white' }}>
+            <HiOutlineLogout style={{ marginRight: '.5rem' }} />
+            Sign Out
+          </Link>
+        </Button>
+      </Button.Group>
     </div>
   );
 
