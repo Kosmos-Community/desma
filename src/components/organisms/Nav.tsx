@@ -6,12 +6,16 @@ const Nav = () => {
 
   const loggedOutOptions = (
     <div style={{ display: 'flex' }}>
-      <Button light auto>
-        Register
-      </Button>
-      <Button auto color="gradient">
-        Login
-      </Button>
+      <Link href="/auth/register">
+        <Button light auto>
+          Register
+        </Button>
+      </Link>
+      <Link href="/auth/login">
+        <Button auto color="gradient">
+          Login
+        </Button>
+      </Link>
     </div>
   );
 
@@ -39,7 +43,7 @@ const Nav = () => {
       <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Link href={isLoggedIn ? '/dashboard' : '/'}>
           <Text
-            h1
+            h2
             size={24}
             css={{ textGradient: '45deg, $yellow500 -20%, $red500 100%' }}
           >
