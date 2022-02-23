@@ -1,69 +1,54 @@
-import { Container, Text } from '@nextui-org/react';
-import { SpaceBox } from '../src/components/atoms/SpaceBox';
-import { Tab } from '../src/components/atoms/Tab';
-import { TabList } from '../src/components/atoms/TabList';
-import { TabPanel } from '../src/components/atoms/TabPanel';
-import { TabPanels } from '../src/components/atoms/TabPanels';
-import Table from '../src/components/molecules/Table';
-import { Tabs } from '../src/components/molecules/Tabs';
+import { Grid, Spacer, Text } from '@nextui-org/react';
+import AppLayout from '../src/components/templates/AppLayout';
+import Feature from '../src/components/molecules/Feature';
 
-const tableRows = [
+const features = [
   {
-    name: 'H1',
-    rem: '0.8',
-    px: '11.2',
-    boxSpace: <SpaceBox size={11.2} />,
+    tag: 'Blazing Fast',
+    title: 'Design Process',
+    desc: 'Enhance your design process by usin an All-in-One webapp.',
   },
   {
-    name: 'H2',
-    rem: '0.8',
-    px: '14',
-    boxSpace: <SpaceBox size={14} />,
+    tag: 'Auto-Backup',
+    title: 'Online Service',
+    desc: 'Keep all your design systems uploaded on the cloud.',
   },
   {
-    name: 'H3',
-    rem: '0.8',
-    px: '17.5',
-    boxSpace: <SpaceBox size={17.5} />,
+    tag: 'Easy-to-Use',
+    title: 'Friendly Interface',
+    desc: 'Straight forward user interface, ready to use it.',
   },
 ];
 
-const tableHeaders = ['Name', 'Rem', 'Px', 'Preview'];
-
 const Index = () => {
   return (
-    <Container
-      css={{
-        width: '100%',
-        padding: '8px',
-        textAlign: 'center',
-      }}
-    >
+    <AppLayout>
+      <Spacer y={4} />
       <Text
-        small
-        weight="medium"
+        h1
+        size={64}
         css={{
-          color: 'white',
-          textGradient: '45deg, $yellow500 -20%, $red500 100%',
+          lineHeight: '100%',
+          textGradient: '45deg, $purple400 25%, $blue500 100%',
+          textAlign: 'center',
         }}
       >
-        Desma: a design system manager
+        Save Time
+        <br />
+        by Designing Faster
       </Text>
-      <Tabs>
-        <TabList>
-          <Tab>1</Tab>
-          <Tab>2</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>1</TabPanel>
-          <TabPanel>
-            <Text>test</Text>
-            <Table tableHeaders={tableHeaders} tableRows={tableRows} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-      {' 🚀'}
-    </Container>
+      <Text h2 size={18} color="$gray300" css={{ textAlign: 'center' }}>
+        Keep your Design Systems in on Place
+      </Text>
+      <Spacer y={4} />
+      <Grid.Container gap={2} justify="center">
+        {features.map((feature) => (
+          <Grid xs={4}>
+            <Feature tag={feature.tag} title={feature.title} desc={feature.desc} />
+          </Grid>
+        ))}
+      </Grid.Container>
+    </AppLayout>
   );
 };
 
