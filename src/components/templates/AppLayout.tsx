@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, keyframes, Spacer } from '@nextui-org/react';
+import { Avatar, Button, Container, keyframes, Spacer, Text } from '@nextui-org/react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -23,20 +23,38 @@ const AppLayout = ({ children }) => {
     <>
       <Container
         css={{
-          backgroundColor: '$gray800',
+          bgColor: '$gray800',
+          height: '56px',
           p: '.5rem',
           paddingLeft: '2rem',
           paddingRight: '2rem',
           width: '100%',
-          height: '60px',
           maxWidth: '100%',
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
           alignItems: 'center',
         }}
       >
+        <Link href="/">
+          <Text
+            h4
+            css={{
+              textGradient: '45deg, $blue500 -20%, $pink500 50%',
+              cursor: 'pointer',
+              paddingBottom: '1rem',
+              m: 0,
+            }}
+          >
+            Desma
+          </Text>
+        </Link>
         <Container
-          css={{ paddingBottom: '1rem', margin: 0, width: 'auto', position: 'relative' }}
+          css={{
+            paddingBottom: '1rem',
+            margin: 0,
+            width: 'auto',
+            position: 'relative',
+          }}
           onMouseOver={overMenu}
           onMouseOut={outMenu}
         >
@@ -70,7 +88,7 @@ const AppLayout = ({ children }) => {
           </Button.Group>
         </Container>
       </Container>
-      <Spacer y={3} />
+      <Spacer y={2} />
       <Container css={{ paddingLeft: 0, paddingRight: 0 }}>{children}</Container>
     </>
   );
