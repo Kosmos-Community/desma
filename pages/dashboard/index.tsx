@@ -1,4 +1,4 @@
-import { Button, Container, Spacer, Text } from '@nextui-org/react';
+import { Button, Container, Link, Spacer, Text } from '@nextui-org/react';
 import React from 'react';
 import ProjectCard from '../../src/components/molecules/ProjectCard';
 import AppLayout from '../../src/components/templates/AppLayout';
@@ -47,9 +47,11 @@ const Home = () => {
               {DESIGN_SYSTEMS.length} Design System generated
             </Text>
           </Container>
-          <Button color="gradient" css={{ marginTop: '1rem' }}>
-            New Design System
-          </Button>
+          <Link href="/designer">
+            <Button color="gradient" css={{ marginTop: '1rem' }}>
+              New Design System
+            </Button>
+          </Link>
         </Container>
         {DESIGN_SYSTEMS.length <= 0 ? (
           <>
