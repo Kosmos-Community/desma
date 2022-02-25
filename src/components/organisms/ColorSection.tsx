@@ -1,89 +1,115 @@
-import React, { useState } from 'react';
-import { Button, Card, Container, Input, Spacer } from '@nextui-org/react';
-import { HexColorPicker } from 'react-colorful';
+import React, { useEffect, useState } from 'react';
+import { Container } from '@nextui-org/react';
 
 import { COLORS } from '../../__mocks__/colorCollection';
 import ColorCollection from '../molecules/ColorCollection';
+import ColorPicker from '../molecules/ColorPicker';
 
 const ColorSection = () => {
   const [pickerState, setPickerState] = useState<boolean>(false);
   const [sectionId, setSectionId] = useState<string>('');
-  const [color, setColor] = useState<string>('#aabbcc');
+  const [color, setColor] = useState<string>('#000000');
+  const [newColor, setNewColor] = useState({ id: '-1', hexCode: '#000000' });
+
+  const colorSections = COLORS;
+
+  // Adds a new color to a ICollection colors array when setting a new IColor
+  useEffect(() => {
+    const section = colorSections.find((colorSection) => colorSection.id === sectionId);
+    if (!section) return;
+    if (section.colors.length >= 5) return;
+    const colorsId = section.colors.map((color) => color.id);
+    if (colorsId.includes(newColor.id)) return;
+
+    section.colors.push(newColor);
+    const tempColor = color.slice(0, -1);
+    setColor(`${tempColor}${section.colors.length}`);
+  }, [newColor]);
 
   const hideColorPicker = () => {
-    if (pickerState) {
-      addSectionColor();
-    }
+    saveColorValue();
+    setPickerState(false);
   };
+
   const showColorPicker = () => setPickerState(true);
 
-  const handleColorPicker = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length < 1) return;
-    setColor(`${e.target.value}`);
+  // Sets a new IColor
+  const addSectionColor = (id) => {
+    if (newColor && newColor.id !== '-1') saveColorValue();
+    setSectionId(id);
+    setNewColor({ id: `${Math.random()}`, hexCode: color });
   };
 
-  const addSectionColor = () => {
-    const section = COLORS.find((color) => color.id === sectionId);
-    if (section.colors.length < 5) section.colors.push({ id: '9', hexCode: color });
-    setPickerState(false);
-    setSectionId('');
+  // Updates IColor selected in a ICollection
+  const updateColor = (sectionId, colorId, hexCode) => {
+    if (newColor && newColor.id !== '-1') saveColorValue();
+    setSectionId(sectionId);
+    setColor(hexCode);
+    setNewColor({ id: colorId, hexCode: color });
+  };
+
+  const deleteColor = () => {
+    const section = colorSections.find((colorSection) => colorSection.id === sectionId);
+    if (!section) return;
+    section.colors = section.colors.filter((color) => color.id !== newColor.id);
+    const tempColor = color.slice(0, -1);
+
+    setColor(`${tempColor}${section.colors.length}`);
+  };
+
+  const saveColorValue = (collectionId = sectionId, colorId = newColor.id) => {
+    const section = colorSections.find(
+      (colorSection) => colorSection.id === collectionId
+    );
+    if (!section) return;
+    const colorSelected = section.colors.find((item) => item.id === colorId);
+    if (!colorSelected) return;
+    colorSelected.hexCode = color;
   };
 
   return (
-    <Container
-      css={{
-        m: 0,
-        p: 0,
-        width: '100%',
-        position: 'relative',
-      }}
-    >
+    <>
       <Container
-        css={{ m: 0, p: 0, width: '100%', display: 'flex' }}
-        onClick={hideColorPicker}
-      >
-        {COLORS.map((collection, index) => (
-          <ColorCollection
-            key={index}
-            id={collection.id}
-            name={collection.name}
-            colors={collection.colors}
-            color={color}
-            isSectionSelected={sectionId === collection.id}
-            showColorPicker={showColorPicker}
-            setSectionId={setSectionId}
-          />
-        ))}
-      </Container>
-
-      <Card
-        shadow={false}
-        bordered
         css={{
-          display: pickerState ? 'block' : 'none',
           position: 'absolute',
-          right: 0,
-          top: 20,
-          width: 'auto',
+          height: '100vh',
+          width: '100vw',
+          zIndex: '-1',
+          top: 0,
+          left: 0,
+        }}
+        onClick={hideColorPicker}
+      />
+      <Container
+        as="section"
+        css={{
+          width: '100%',
+          position: 'relative',
         }}
       >
-        <Card.Body>
-          <HexColorPicker color={color} onChange={setColor} />
-        </Card.Body>
-        <Card.Footer css={{ display: 'flex', flexDirection: 'column' }}>
-          <Input
-            value={color}
-            bordered
-            label="HEX"
-            placeholder="#ffffff"
-            maxLength={7}
-            onChange={handleColorPicker}
-          />
-          <Spacer y={2} />
-          <Button onClick={addSectionColor}>Save Color</Button>
-        </Card.Footer>
-      </Card>
-    </Container>
+        <Container css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
+          {colorSections.map((collection, index) => (
+            <ColorCollection
+              key={index}
+              collection={collection}
+              color={color}
+              newColor={newColor}
+              showColorPicker={showColorPicker}
+              addSectionColor={addSectionColor}
+              updateColor={updateColor}
+            />
+          ))}
+        </Container>
+
+        <ColorPicker
+          pickerState={pickerState}
+          color={color}
+          setColor={setColor}
+          addSectionColor={hideColorPicker}
+          deleteColor={deleteColor}
+        />
+      </Container>
+    </>
   );
 };
 

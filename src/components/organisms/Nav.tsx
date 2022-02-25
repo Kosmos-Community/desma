@@ -8,8 +8,8 @@ const Nav = () => {
   let onMouseLeavingAvatar;
 
   const slideIn = keyframes({
-    '0%': { transform: 'translate-y: -5px' },
-    '100%': { transform: 'translate-y: 0' },
+    '0%': { transform: 'translateY(-5px)' },
+    '100%': { transform: 'translateY(0)' },
   });
 
   const loggedOutOptions = (
@@ -57,7 +57,7 @@ const Nav = () => {
           right: 0,
           transform: 'translate(0, 0)',
           display: avatarHovered ? 'flex' : 'none',
-          animation: `${slideIn} 1s`,
+          animation: `${slideIn} 200ms`,
           zIndex: 1000,
         }}
       >
