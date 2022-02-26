@@ -21,7 +21,7 @@ interface IColor {
   rgbCode?: string;
 }
 
-interface IPallette {
+export interface IPallette {
   id?: string;
   name: string;
   colors: IColor[] | null;
@@ -48,7 +48,7 @@ interface IDesign {
 }
 
 interface ICollectionDispatcher {
-  payload: IPallette | IFonts | ISpacing;
+  payload: IPallette[] | IFonts | ISpacing;
   type: EDesignAction;
 }
 
