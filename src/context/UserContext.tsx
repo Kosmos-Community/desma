@@ -1,11 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useContext } from 'react';
-
-interface IUser {
-  name: string | null;
-  email: string | null;
-  profilePicture: string | null;
-  token: string | null;
-}
+import { IUser } from '../interfaces/IUser';
 
 interface IUserContext {
   userData: IUser;
