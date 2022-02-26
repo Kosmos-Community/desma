@@ -12,14 +12,14 @@ const App = ({ Component, pageProps }) => {
     token: null,
   });
 
-  globalStyles();
+  //globalStyles();
 
   return (
-    <NextUIProvider>
-      <UserProvider value={{ userData, setUserData }}>
+    <UserProvider value={{ userData, setUserData }}>
+      <NextUIProvider>
         <Component {...pageProps} />
-      </UserProvider>
-    </NextUIProvider>
+      </NextUIProvider>
+    </UserProvider>
   );
 };
 
