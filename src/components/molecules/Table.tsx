@@ -15,9 +15,19 @@ const Table = ({ tableHeaders, tableRows }: ITable) => {
           <TableItem key={i}>{header}</TableItem>
         ))}
       </Grid.Container>
-      <Grid.Container gap={1}>
+      <Grid.Container gap={2}>
         {tableRows.map((row) =>
-          Object.keys(row).map((key, i) => <TableItem key={i}>{row[key]}</TableItem>)
+          Object.keys(row).map((key, i) => {
+            if (i === 3) {
+              return (
+                <TableItem key={i} cellSize={5}>
+                  {row[key]}
+                </TableItem>
+              );
+            } else {
+              return <TableItem key={i}>{row[key]}</TableItem>;
+            }
+          })
         )}
       </Grid.Container>
     </Grid.Container>
