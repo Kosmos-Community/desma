@@ -12,7 +12,7 @@ const App = ({ Component, pageProps }) => {
     token: null,
   });
 
-  //globalStyles();
+  globalStyles();
 
   return (
     <UserProvider value={{ userData, setUserData }}>

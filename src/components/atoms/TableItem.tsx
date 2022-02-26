@@ -6,6 +6,6 @@ interface ITableItem {
   children: ReactNode;
 }
 
-export const TableItem = ({ cellSize = 3, children }: ITableItem) => {
+export const TableItem = ({ cellSize = 2, children }: ITableItem) => {
   return <Grid xs={cellSize}>{children}</Grid>;
 };

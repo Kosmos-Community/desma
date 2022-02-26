@@ -1,22 +1,43 @@
-import { Container, Input } from '@nextui-org/react';
-import React, { useEffect } from 'react';
+import { Container, Input, Row, Spacer } from '@nextui-org/react';
+import React, { useEffect, useState } from 'react';
 import useDesignContext, {
   EDesignAction,
   EScaleFactor,
 } from '../../context/DesignContext';
+import { handleSpacingScale } from '../../utils/scaleFactor';
+import Dropdown from '../atoms/Dropdown';
 import Table from '../molecules/Table';
+
+const options: EScaleFactor[] = [
+  EScaleFactor.GOLDEN_RATIO,
+  EScaleFactor.MAJOR_SECOND,
+  EScaleFactor.MINOR_SECOND,
+  EScaleFactor.MINOR_THIRD,
+  EScaleFactor.MAJOR_THIRD,
+];
+
+const TABLE_HEADERS = ['Name', 'Space', 'Pixels', ''];
 
 const SpacingSection = () => {
   const { designData, setDesignState } = useDesignContext();
+  const [baseSize, setBaseSize] = useState(designData.spacing.baseSize);
+  const [scaleFactor, setScaleFactor] = useState(designData.spacing.scaleFactor);
+
+  const spacings = handleSpacingScale(scaleFactor, baseSize);
+  const TABLE_ROWS = [...spacings];
 
   useEffect(() => {
     setDesignState({
-      payload: { baseSize: 10, scaleFactor: EScaleFactor.GOLDEN_RATIO },
+      payload: { baseSize, scaleFactor },
       type: EDesignAction.SET_SPACING,
     });
-  }, []);
+  }, [baseSize, scaleFactor, setDesignState]);
 
-  console.log(designData);
+  const handleBaseSize = (e) => {
+    const value = Number(e.target.value);
+    if (value < 1) return;
+    setBaseSize(value);
+  };
 
   return (
     <Container
@@ -26,15 +47,28 @@ const SpacingSection = () => {
         position: 'relative',
       }}
     >
-      <Input label="Full Name" placeholder="Guillermo Rauch" />
-      <select placeholder="Select Option" name="" id="">
-        <option value="test1">Test 1</option>
-        <option value="test1">Test 2</option>
-        <option value="test1">Test 3</option>
-        <option value="test1">Test 4</option>
-      </select>
-
-      {/* <Table /> */}
+      <Spacer />
+      <Row>
+        <Input
+          label="Base size"
+          bordered
+          placeholder="14"
+          type="number"
+          value={`${baseSize}`}
+          min={1}
+          onChange={handleBaseSize}
+        />
+        <Spacer />
+        <Dropdown
+          options={options}
+          label="Scale Factor"
+          placeholder="Select your option"
+          value={scaleFactor}
+          onChange={(e) => setScaleFactor(e.target.value)}
+        />
+      </Row>
+      <Spacer />
+      <Table tableHeaders={TABLE_HEADERS} tableRows={TABLE_ROWS} />
     </Container>
   );
 };
