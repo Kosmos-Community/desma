@@ -4,6 +4,7 @@ import validator from 'validator';
 
 const RegisterScreen = () => {
   const [registerForm, setRegisterForm] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -30,6 +31,7 @@ const RegisterScreen = () => {
 
       setErrorMsg('');
       // Send API Call
+      console.log(registerForm);
       return;
     }
 
@@ -53,6 +55,13 @@ const RegisterScreen = () => {
         <Link href="/">Desma</Link>
       </Text>
 
+      <Spacer y={2} />
+      <Input
+        labelPlaceholder="Name"
+        name="name"
+        value={registerForm.name}
+        onChange={onInputChange}
+      />
       <Spacer y={2} />
       <Input
         labelPlaceholder="Email"
