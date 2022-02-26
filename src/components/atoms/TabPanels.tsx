@@ -1,5 +1,5 @@
 import { ITabChild } from '../../interfaces/ITabs';
-import { useTabsContext } from '../../providers/TabsProvider/TabsContext';
+import useTabsContext from '../../context/TabsProvider/TabsContext';
 
 export const TabPanels = ({ children }: ITabChild) => {
   const { tabState } = useTabsContext();
