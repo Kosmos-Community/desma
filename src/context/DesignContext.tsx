@@ -9,6 +9,12 @@ export enum EScaleFactor {
   GOLDEN_RATIO = 'Golden Ratio',
 }
 
+export enum EDesignAction {
+  SET_PALETTE = 'SET_PALETTE',
+  SET_FONTS = 'SET_FONTS',
+  SET_SPACING = 'SET_SPACING',
+}
+
 interface IColor {
   id?: string;
   hexCode?: string;
@@ -41,9 +47,14 @@ interface IDesign {
   spacing: ISpacing;
 }
 
+interface ICollectionDispatcher {
+  payload: IPallette | IFonts | ISpacing;
+  type: EDesignAction;
+}
+
 export interface ICollection {
   designData: IDesign;
-  setDesignState?: Dispatch<any>;
+  setDesignState?: Dispatch<ICollectionDispatcher>;
 }
 
 const SPACING: ISpacing = {
@@ -64,25 +75,22 @@ export const designData: IDesign = {
   spacing: SPACING,
 };
 
-export const SET_PALETTE = 'SET_PALETTE';
-export const SET_FONT = 'SET_FONT';
-export const SET_SPACING = 'SET_SPACING';
 
 export const setDesignState = (state: ICollection, action): any => {
   switch (action.type) {
-    case SET_PALETTE:
+    case EDesignAction.SET_PALETTE:
       return {
         ...state,
         palette: action.payload,
       };
 
-    case SET_FONT:
+    case EDesignAction.SET_FONTS:
       return {
         ...state,
         font: action.payload,
       };
 
-    case SET_SPACING:
+    case EDesignAction.SET_SPACING:
       return {
         ...state,
         spacing: action.payload,
