@@ -37,6 +37,7 @@ const Index = () => {
         <br />
         by Designing Faster
       </Text>
+      <Spacer y={1} />
       <Text h2 size={18} color="$gray300" css={{ textAlign: 'center' }}>
         Keep your Design Systems in on Place
       </Text>
