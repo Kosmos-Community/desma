@@ -1,9 +1,10 @@
 import { Container, Text, Link, Button, Avatar, keyframes } from '@nextui-org/react';
 import { useState } from 'react';
 import { HiHome, HiUserCircle, HiOutlineLogout } from 'react-icons/hi';
+import useUserContext from '../../context/UserContext';
 
 const Nav = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const { userData, setUserData } = useUserContext();
   const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
   let onMouseLeavingAvatar;
 
@@ -41,7 +42,7 @@ const Nav = () => {
       }}
     >
       <Avatar
-        src="https://pbs.twimg.com/profile_images/1495197577691684869/YajzOKkB_400x400.jpg"
+        src={`https://avatars.dicebear.com/api/micah/${userData.email}.svg`}
         text="Reyes"
         color="gradient"
         bordered
@@ -93,7 +94,7 @@ const Nav = () => {
       }}
     >
       <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Link href={isLoggedIn ? '/dashboard' : '/'}>
+        <Link href={userData.token ? '/dashboard' : '/'}>
           <Text
             h2
             size={24}
@@ -102,7 +103,7 @@ const Nav = () => {
             Desma
           </Text>
         </Link>
-        {isLoggedIn ? loggedInOptions : loggedOutOptions}
+        {userData.token ? loggedInOptions : loggedOutOptions}
       </nav>
     </Container>
   );

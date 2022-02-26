@@ -20,7 +20,7 @@ const LoginScreen = () => {
       }
 
       setErrorMsg('');
-      // Api Call
+
       return;
     }
 
