@@ -7,7 +7,7 @@ import { TabPanels } from '../../src/components/atoms/TabPanels';
 import AppLayout from '../../src/components/templates/AppLayout';
 import ColorSection from '../../src/components/organisms/ColorSection';
 import SpacingSection from '../../src/components/organisms/SpacingSection';
-import { Tabs } from '../../src/context/TabsProvider/TabsContext';
+import { Tabs } from '../../src/context/TabsContext';
 
 const Home = () => {
   return (

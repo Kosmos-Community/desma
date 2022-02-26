@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/react';
 import React, { ReactNode } from 'react';
-import useTabsContext from '../../context/TabsProvider/TabsContext';
+import useTabsContext from '../../context/TabsContext';
 
 interface ITab {
   index?: number;
