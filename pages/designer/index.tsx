@@ -4,9 +4,10 @@ import { Tab } from '../../src/components/atoms/Tab';
 import { TabList } from '../../src/components/atoms/TabList';
 import { TabPanel } from '../../src/components/atoms/TabPanel';
 import { TabPanels } from '../../src/components/atoms/TabPanels';
-import { Tabs } from '../../src/components/molecules/Tabs';
 import AppLayout from '../../src/components/templates/AppLayout';
 import ColorSection from '../../src/components/organisms/ColorSection';
+import SpacingSection from '../../src/components/organisms/SpacingSection';
+import { Tabs } from '../../src/context/TabsProvider/TabsContext';
 
 const Home = () => {
   return (
@@ -28,7 +29,7 @@ const Home = () => {
             <Text>test</Text>
           </TabPanel>
           <TabPanel>
-            <Text>test</Text>
+            <SpacingSection />
           </TabPanel>
           <TabPanel>
             <Text>test</Text>

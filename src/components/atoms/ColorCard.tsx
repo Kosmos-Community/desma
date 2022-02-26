@@ -1,14 +1,14 @@
 import React from 'react';
-import { IoMdAddCircleOutline } from 'react-icons/io';
 
 import { Card, Row, Text } from '@nextui-org/react';
 import { IColor } from '../../interfaces/IColor';
+import { HiOutlinePlusCircle } from 'react-icons/hi';
 
 const ColorCard = ({ hexCode, rgbCode }: IColor) => {
   const isColorCard = Boolean(hexCode);
 
   return isColorCard ? (
-    <Card bordered shadow={false} css={{ width: '200px', height: '170px' }}>
+    <Card clickable bordered shadow={false} css={{ width: '200px', height: '170px' }}>
       <Card.Body css={{ p: 0, bgColor: hexCode }} />
       <Card.Footer
         css={{ '*': { fontSize: '$xs' }, paddingTop: '$4', paddingBottom: '$4' }}
@@ -36,7 +36,7 @@ const ColorCard = ({ hexCode, rgbCode }: IColor) => {
           alignItems: 'center',
         }}
       >
-        <IoMdAddCircleOutline color="#C1C1C1" size="2.5rem" />
+        <HiOutlinePlusCircle color="#C1C1C1" size="2.5rem" />
       </Card.Body>
     </Card>
   );

@@ -28,7 +28,7 @@ const Index = () => {
         h1
         size={64}
         css={{
-          lineHeight: '100%',
+          lineHeight: '4.45rem',
           textGradient: '45deg, $purple400 25%, $blue500 100%',
           textAlign: 'center',
         }}
@@ -41,9 +41,9 @@ const Index = () => {
         Keep your Design Systems in on Place
       </Text>
       <Spacer y={4} />
-      <Grid.Container gap={2} justify="center">
-        {features.map((feature) => (
-          <Grid xs={4}>
+      <Grid.Container gap={2} justify="center" css={{ textAlign: 'center' }}>
+        {features.map((feature, index) => (
+          <Grid key={index} css={{ maxWidth: '400px', lg: { flexBasis: '1fr' } }}>
             <Feature tag={feature.tag} title={feature.title} desc={feature.desc} />
           </Grid>
         ))}

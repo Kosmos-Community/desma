@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Grid, Text } from '@nextui-org/react';
 
 import { hexToRgb } from '../../utils/colorConversion';
@@ -9,45 +9,69 @@ interface ICollection {
   id: string;
   name: string;
   colors: IColor[];
+}
+
+interface IColorCollection {
+  collection: ICollection;
   color: string;
-  isSectionSelected: boolean;
+  newColor: IColor;
   showColorPicker?: (event: any) => void;
-  setSectionId: (event: any) => void;
+  addSectionColor: (id: string) => void;
+  updateColor: (sectionId: string, colorId: string, hexCode: string) => void;
 }
 
 const ColorCollection = ({
-  id,
-  name,
-  colors,
+  collection,
   color,
-  isSectionSelected,
+  newColor,
   showColorPicker,
-  setSectionId,
-}: ICollection) => {
-  const [numCards, setNumCards] = useState(colors.length);
+  addSectionColor,
+  updateColor,
+}: IColorCollection) => {
+  const { id, name, colors } = collection;
 
-  const handleSection = (event: React.MouseEvent<HTMLInputElement>) => {
-    setNumCards(colors.length + 1);
+  const addNewColor = (event: React.MouseEvent<HTMLInputElement>) => {
     showColorPicker(event);
-    setSectionId(id);
+    addSectionColor(id);
+  };
+
+  const handleColorSelected = (event: React.MouseEvent<HTMLInputElement>) => {
+    showColorPicker(event);
+  };
+
+  const handleUpdateColor = (
+    event: React.MouseEvent<HTMLInputElement>,
+    colorId: string,
+    hexCode: string
+  ) => {
+    showColorPicker(event);
+    updateColor(id, colorId, hexCode);
   };
   return (
     <Card shadow={false} css={{ width: 'auto' }}>
       <Text h3>{name}</Text>
       <Grid.Container gap={2} css={{ marginTop: '$1', p: 0 }}>
-        {colors.map((color, index) => (
-          <Grid key={index}>
-            <ColorCard hexCode={color.hexCode} rgbCode={hexToRgb(color.hexCode)} />
+        {colors.map((colorItem, index) => (
+          <Grid key={index} onClick={handleColorSelected}>
+            {colorItem.id !== newColor.id ? (
+              <div
+                id={colorItem.id}
+                onClick={(e: any) =>
+                  handleUpdateColor(e, colorItem.id, colorItem.hexCode)
+                }
+              >
+                <ColorCard
+                  hexCode={colorItem.hexCode}
+                  rgbCode={hexToRgb(colorItem.hexCode)}
+                />
+              </div>
+            ) : (
+              <ColorCard hexCode={color} rgbCode={hexToRgb(color)} />
+            )}
           </Grid>
         ))}
-
-        {isSectionSelected && colors.length < 5 && (
-          <Grid>
-            <ColorCard hexCode={color} rgbCode={hexToRgb(color)} />
-          </Grid>
-        )}
-        {numCards < 5 && (
-          <Grid onClick={handleSection}>
+        {colors.length < 5 && (
+          <Grid onClick={addNewColor}>
             <ColorCard />
           </Grid>
         )}
