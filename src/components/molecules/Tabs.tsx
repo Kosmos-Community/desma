@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ITabChild } from '../../interfaces/ITabs';
-import { TabsContext } from '../../context/TabsProvider/TabsContext';
+import { TabsContext } from '../../context/TabsContext';
 
 export const Tabs = ({ children }: ITabChild) => {
   const [tabState, setTabState] = useState(0);
