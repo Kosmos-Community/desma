@@ -1,6 +1,9 @@
 import { Container, Input } from '@nextui-org/react';
 import React, { useEffect } from 'react';
-import useDesignContext, { EScaleFactor, SET_SPACING } from '../../context/DesignContext';
+import useDesignContext, {
+  EDesignAction,
+  EScaleFactor,
+} from '../../context/DesignContext';
 import Table from '../molecules/Table';
 
 const SpacingSection = () => {
@@ -9,7 +12,7 @@ const SpacingSection = () => {
   useEffect(() => {
     setDesignState({
       payload: { baseSize: 10, scaleFactor: EScaleFactor.GOLDEN_RATIO },
-      type: SET_SPACING,
+      type: EDesignAction.SET_SPACING,
     });
   }, []);
 
