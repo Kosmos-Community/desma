@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@nextui-org/react';
 
-import { COLORS } from '../../__mocks__/colorCollection';
 import ColorCollection from '../molecules/ColorCollection';
 import ColorPicker from '../molecules/ColorPicker';
+import useDesignContext, { EDesignAction } from '../../context/DesignContext';
 
 const ColorSection = () => {
   const [pickerState, setPickerState] = useState<boolean>(false);
   const [sectionId, setSectionId] = useState<string>('');
   const [color, setColor] = useState<string>('#000000');
   const [newColor, setNewColor] = useState({ id: '-1', hexCode: '#000000' });
+  const { designData, setDesignState } = useDesignContext();
 
-  const colorSections = COLORS;
+  const { palette } = designData;
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {
-    const section = colorSections.find((colorSection) => colorSection.id === sectionId);
+    const newPalette = [...palette];
+    const section = newPalette.find((colorSection) => colorSection.id === sectionId);
     if (!section) return;
     if (section.colors.length >= 5) return;
     const colorsId = section.colors.map((color) => color.id);
     if (colorsId.includes(newColor.id)) return;
-
     section.colors.push(newColor);
-    const tempColor = color.slice(0, -1);
-    setColor(`${tempColor}${section.colors.length}`);
+
+    setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
   }, [newColor]);
 
   const hideColorPicker = () => {
@@ -33,15 +34,8 @@ const ColorSection = () => {
 
   const showColorPicker = () => setPickerState(true);
 
-  // Sets a new IColor
-  const addSectionColor = (id) => {
-    if (newColor && newColor.id !== '-1') saveColorValue();
-    setSectionId(id);
-    setNewColor({ id: `${Math.random()}`, hexCode: color });
-  };
-
-  // Updates IColor selected in a ICollection
-  const updateColor = (sectionId, colorId, hexCode) => {
+  // Updates IColor selected in an ICollection
+  const updateColor = (sectionId, colorId = `${Math.random()}`, hexCode = color) => {
     if (newColor && newColor.id !== '-1') saveColorValue();
     setSectionId(sectionId);
     setColor(hexCode);
@@ -49,18 +43,15 @@ const ColorSection = () => {
   };
 
   const deleteColor = () => {
-    const section = colorSections.find((colorSection) => colorSection.id === sectionId);
+    const newPalette = [...palette];
+    const section = newPalette.find((colorSection) => colorSection.id === sectionId);
     if (!section) return;
     section.colors = section.colors.filter((color) => color.id !== newColor.id);
-    const tempColor = color.slice(0, -1);
-
-    setColor(`${tempColor}${section.colors.length}`);
+    setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
   };
 
-  const saveColorValue = (collectionId = sectionId, colorId = newColor.id) => {
-    const section = colorSections.find(
-      (colorSection) => colorSection.id === collectionId
-    );
+  const saveColorValue = (paletteId = sectionId, colorId = newColor.id) => {
+    const section = palette.find((colorSection) => colorSection.id === paletteId);
     if (!section) return;
     const colorSelected = section.colors.find((item) => item.id === colorId);
     if (!colorSelected) return;
@@ -88,15 +79,14 @@ const ColorSection = () => {
         }}
       >
         <Container css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
-          {colorSections.map((collection, index) => (
+          {palette.map((collection, index) => (
             <ColorCollection
               key={index}
               collection={collection}
               color={color}
               newColor={newColor}
               showColorPicker={showColorPicker}
-              addSectionColor={addSectionColor}
-              updateColor={updateColor}
+              addColor={updateColor}
             />
           ))}
         </Container>

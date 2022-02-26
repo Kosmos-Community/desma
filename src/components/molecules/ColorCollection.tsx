@@ -4,20 +4,14 @@ import { Card, Grid, Text } from '@nextui-org/react';
 import { hexToRgb } from '../../utils/colorConversion';
 import ColorCard from '../atoms/ColorCard';
 import { IColor } from '../../interfaces/IColor';
-
-interface ICollection {
-  id: string;
-  name: string;
-  colors: IColor[];
-}
+import { IPallette } from '../../context/DesignContext';
 
 interface IColorCollection {
-  collection: ICollection;
+  collection: IPallette;
   color: string;
   newColor: IColor;
   showColorPicker?: (event: any) => void;
-  addSectionColor: (id: string) => void;
-  updateColor: (sectionId: string, colorId: string, hexCode: string) => void;
+  addColor: (sectionId: string, colorId?: string, hexCode?: string) => void;
 }
 
 const ColorCollection = ({
@@ -25,14 +19,13 @@ const ColorCollection = ({
   color,
   newColor,
   showColorPicker,
-  addSectionColor,
-  updateColor,
+  addColor,
 }: IColorCollection) => {
   const { id, name, colors } = collection;
 
   const addNewColor = (event: React.MouseEvent<HTMLInputElement>) => {
     showColorPicker(event);
-    addSectionColor(id);
+    addColor(id);
   };
 
   const handleColorSelected = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -45,7 +38,7 @@ const ColorCollection = ({
     hexCode: string
   ) => {
     showColorPicker(event);
-    updateColor(id, colorId, hexCode);
+    addColor(id, colorId, hexCode);
   };
   return (
     <Card shadow={false} css={{ width: 'auto' }}>
