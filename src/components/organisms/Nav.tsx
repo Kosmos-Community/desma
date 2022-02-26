@@ -8,6 +8,8 @@ const Nav = () => {
   const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
   let onMouseLeavingAvatar;
 
+  console.log(userData);
+
   const slideIn = keyframes({
     '0%': { transform: 'translateY(-5px)' },
     '100%': { transform: 'translateY(0)' },

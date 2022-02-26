@@ -1,8 +1,13 @@
 import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import validator from 'validator';
+import useUserContext from '../../src/context/UserContext';
 
 const RegisterScreen = () => {
+  const router = useRouter();
+  const { userData, setUserData } = useUserContext();
+
   const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
@@ -17,7 +22,7 @@ const RegisterScreen = () => {
     setRegisterForm({ ...registerForm, ...updatedValue });
   };
 
-  const onRegister = () => {
+  const onRegister = async () => {
     if (registerForm.email && registerForm.password && registerForm.confirmPassword) {
       if (!validator.isEmail(registerForm.email)) {
         setErrorMsg('Email is not valid');
@@ -29,9 +34,40 @@ const RegisterScreen = () => {
         return;
       }
 
+      // Clear the Error Message if any
       setErrorMsg('');
-      // Send API Call
-      console.log(registerForm);
+
+      const reqRegister = await fetch('https://desma-test.onrender.com/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: registerForm.name,
+          email: registerForm.email,
+          password: registerForm.password,
+        }),
+      });
+
+      const reqRegisterData = await reqRegister.json();
+
+      if (reqRegister.status == 401) {
+        setErrorMsg('Email already exists');
+        return;
+      }
+
+      if (reqRegister.status == 201) {
+        // Update user data to login
+        setUserData({
+          ...userData,
+          email: reqRegisterData.email,
+          token: reqRegisterData.token,
+        });
+
+        // Redirect to dashboard
+        router.push('/dashboard');
+      }
+
       return;
     }
 
