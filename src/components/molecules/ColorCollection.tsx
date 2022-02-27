@@ -3,29 +3,30 @@ import { Card, Grid, Text } from '@nextui-org/react';
 
 import { hexToRgb } from '../../utils/colorConversion';
 import ColorCard from '../atoms/ColorCard';
-import { IColor } from '../../interfaces/IColor';
-import { IPallette } from '../../context/DesignContext';
+import { IColor } from '../../interfaces/IDesign';
 
 interface IColorCollection {
-  collection: IPallette;
   color: string;
+  paletteName: string;
+  colors: IColor[];
   newColor: IColor;
   showColorPicker?: (event: any) => void;
   addColor: (sectionId: string, colorId?: string, hexCode?: string) => void;
 }
 
 const ColorCollection = ({
-  collection,
+  paletteName,
+  colors,
   color,
   newColor,
   showColorPicker,
   addColor,
 }: IColorCollection) => {
-  const { id, name, colors } = collection;
+  const name = paletteName.charAt(0).toUpperCase() + paletteName.slice(1);
 
   const addNewColor = (event: React.MouseEvent<HTMLInputElement>) => {
     showColorPicker(event);
-    addColor(id);
+    addColor(paletteName);
   };
 
   const handleColorSelected = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -38,7 +39,7 @@ const ColorCollection = ({
     hexCode: string
   ) => {
     showColorPicker(event);
-    addColor(id, colorId, hexCode);
+    addColor(paletteName, colorId, hexCode);
   };
   return (
     <Card shadow={false} css={{ width: 'auto' }}>
