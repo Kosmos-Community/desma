@@ -25,7 +25,12 @@ const Preview = () => {
           </div>
         </Container>
         <Container
-          css={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          css={{
+            marginBottom: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
           <Text
             h2
@@ -43,7 +48,20 @@ const Preview = () => {
             Call to Action
           </Button>
         </Container>
+        <Container
+          css={{
+            display: 'flex',
+            gap: '2rem',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+          {[0, 1, 2, 4, 5].map(() => (
+            <Card css={{ width: '300px', height: '150px' }}></Card>
+          ))}
+        </Container>
       </Card>
+      <Spacer y={2} />
     </Container>
   );
 };
