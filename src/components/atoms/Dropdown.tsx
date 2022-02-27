@@ -1,7 +1,15 @@
 import React from 'react';
 import { Container, Spacer, Text } from '@nextui-org/react';
 
-const Dropdown = ({ options, label, placeholder, value, onChange }) => {
+interface IDropdown {
+  options: string[];
+  label: string;
+  placeholder: string;
+  value?: string;
+  onChange?: (e: any) => void;
+}
+
+const Dropdown = ({ options, label, placeholder, value, onChange }: IDropdown) => {
   return (
     <Container css={{ m: 0, p: 0, position: 'relative', width: 'fit-content' }}>
       <Text as="label" size={'0.875rem'} css={{ marginBottom: '0.375rem' }}>
@@ -27,18 +35,14 @@ const Dropdown = ({ options, label, placeholder, value, onChange }) => {
           },
         }}
       >
-        <select
-          placeholder={placeholder}
-          name=""
-          id=""
-          value={value}
-          onChange={onChange}
-        >
+        <select placeholder={placeholder} name="" id="" value={value} onChange={onChange}>
           <option value="" disabled selected>
             {placeholder}
           </option>
           {options.map((option, index) => (
-            <option key={index} value={option}>{option}</option>
+            <option key={index} value={option}>
+              {option}
+            </option>
           ))}
         </select>
       </Container>

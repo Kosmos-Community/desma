@@ -5,9 +5,10 @@ import { TableItem } from '../atoms/TableItem';
 interface ITable {
   tableHeaders: string[];
   tableRows: any[];
+  lastItemStyles?: any;
 }
 
-const Table = ({ tableHeaders, tableRows }: ITable) => {
+const Table = ({ tableHeaders, tableRows, lastItemStyles }: ITable) => {
   return (
     <Grid.Container gap={0}>
       <Grid.Container gap={1} css={{ '*': { fontWeight: '$medium' } }}>
@@ -20,7 +21,7 @@ const Table = ({ tableHeaders, tableRows }: ITable) => {
           Object.keys(row).map((key, i) => {
             if (i === 3) {
               return (
-                <TableItem key={i} cellSize={5}>
+                <TableItem key={i} cellSize={5} css={lastItemStyles}>
                   {row[key]}
                 </TableItem>
               );

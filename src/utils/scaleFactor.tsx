@@ -1,4 +1,4 @@
-import { Progress } from '@nextui-org/react';
+import { Progress, Text } from '@nextui-org/react';
 import { EScaleFactor } from '../context/DesignContext';
 
 const SCALES = {
@@ -12,13 +12,13 @@ const SCALES = {
 const MAX_SIZE = 385;
 
 // Returns array of rem scales given a ScaleFactor
-const scaleFactor = (scaleType: EScaleFactor, baseSize: number) => {
+const scaleFactor = (scaleType: EScaleFactor, baseSize: number, maxSize = MAX_SIZE) => {
   const scale = SCALES[scaleType];
   const factor = [];
   let remValue = Number((1 / scale).toFixed(3));
   let value = 0;
   let i = 0;
-  while (value < MAX_SIZE) {
+  while (value < maxSize) {
     factor.push(remValue);
     const scaleValue = factor[i] * scale;
     remValue = Number(scaleValue.toFixed(3));
@@ -51,6 +51,31 @@ const scaleSpacingRatio = (scales, baseSize: number) => {
   }
 
   return spacings;
+};
+
+// Returns array of spacing objects for SpacingSection
+const scaleFontRatio = (scales, baseSize: number, text) => {
+  const fonts = [];
+
+  for (let i = 0; i < scales.length; i++) {
+    const pixels = remToPx(scales[i], baseSize);
+    fonts.push({
+      name: `${i}`,
+      scale: `${scales[i]}rem`,
+      pixels: `${pixels}px`,
+      example: (
+        <Text css={{ fontSize: `${pixels}px`, lineHeight: '3rem' }}>{text}</Text>
+      ),
+    });
+  }
+
+  return fonts;
+};
+
+export const handleFontRatio = (scaleType: EScaleFactor, baseSize: number, text) => {
+  const MAX_SIZE = 60;
+  const scales = scaleFactor(scaleType, baseSize, MAX_SIZE);
+  return scaleFontRatio(scales, baseSize, text);
 };
 
 export const handleSpacingScale = (scaleType: EScaleFactor, baseSize: number) => {

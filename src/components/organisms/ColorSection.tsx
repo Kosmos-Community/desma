@@ -4,7 +4,7 @@ import { Container } from '@nextui-org/react';
 import ColorCollection from '../molecules/ColorCollection';
 import ColorPicker from '../molecules/ColorPicker';
 import useDesignContext, { EDesignAction } from '../../context/DesignContext';
-import { IColor } from '../../interfaces/IColor';
+import { IColor } from '../../interfaces/IDesign';
 
 const ColorSection = () => {
   const [pickerState, setPickerState] = useState<boolean>(false);
