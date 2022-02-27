@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Card, Row, Text } from '@nextui-org/react';
-import { IColor } from '../../interfaces/IColor';
+import { IColor } from '../../interfaces/IDesign';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 
 const ColorCard = ({ hexCode, rgbCode }: IColor) => {
