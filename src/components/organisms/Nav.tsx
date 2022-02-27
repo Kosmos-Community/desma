@@ -1,14 +1,12 @@
 import { Container, Text, Link, Button, Avatar, keyframes } from '@nextui-org/react';
 import { useState } from 'react';
 import { HiHome, HiUserCircle, HiOutlineLogout } from 'react-icons/hi';
-import useUserContext from '../../context/UserContext';
+import { useSession, signOut } from 'next-auth/react';
 
 const Nav = () => {
-  const { userData, setUserData } = useUserContext();
+  const { data: session } = useSession();
   const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
   let onMouseLeavingAvatar;
-
-  console.log(userData);
 
   const slideIn = keyframes({
     '0%': { transform: 'translateY(-5px)' },
@@ -32,7 +30,12 @@ const Nav = () => {
 
   const loggedInOptions = (
     <div
-      style={{ position: 'relative' }}
+      style={{
+        position: 'relative',
+        display: 'flex',
+        gap: '.5rem',
+        alignItems: 'center',
+      }}
       onMouseOver={() => {
         clearTimeout(onMouseLeavingAvatar);
         setAvatarHovered(true);
@@ -43,8 +46,13 @@ const Nav = () => {
         }, 200);
       }}
     >
+      <Text weight="medium" color="primary">
+        {session && session.user.token}
+      </Text>
       <Avatar
-        src={`https://avatars.dicebear.com/api/micah/${userData.email}.svg`}
+        src={`https://avatars.dicebear.com/api/micah/${
+          session && session.user.email
+        }.svg`}
         text="Reyes"
         color="gradient"
         bordered
@@ -70,18 +78,21 @@ const Nav = () => {
             Home
           </Link>
         </Button>
-
+        {/*
         <Button>
           <Link href="#" css={{ color: 'white' }}>
             <HiUserCircle style={{ marginRight: '.5rem' }} />
             Account
           </Link>
         </Button>
-        <Button>
-          <Link href="#" css={{ color: 'white' }}>
-            <HiOutlineLogout style={{ marginRight: '.5rem' }} />
-            Sign Out
-          </Link>
+        */}
+        <Button
+          onClick={() => {
+            signOut();
+          }}
+        >
+          <HiOutlineLogout style={{ marginRight: '.5rem' }} />
+          Sign Out
         </Button>
       </Button.Group>
     </div>
@@ -96,7 +107,7 @@ const Nav = () => {
       }}
     >
       <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Link href={userData.token ? '/dashboard' : '/'}>
+        <Link href={session ? '/dashboard' : '/'}>
           <Text
             h2
             size={24}
@@ -105,7 +116,7 @@ const Nav = () => {
             Desma
           </Text>
         </Link>
-        {userData.token ? loggedInOptions : loggedOutOptions}
+        {session ? loggedInOptions : loggedOutOptions}
       </nav>
     </Container>
   );

@@ -39,7 +39,7 @@ const Index = () => {
       </Text>
       <Spacer y={1} />
       <Text h2 size={18} color="$gray300" css={{ textAlign: 'center' }}>
-        Keep your Design Systems in on Place
+        Keep your Design Systems in one Place
       </Text>
       <Spacer y={4} />
       <Grid.Container gap={2} justify="center" css={{ textAlign: 'center' }}>
@@ -52,5 +52,12 @@ const Index = () => {
     </AppLayout>
   );
 };
+
+export async function getServerSideProps(context) {
+  console.log(context);
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}
 
 export default Index;

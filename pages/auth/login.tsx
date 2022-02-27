@@ -1,8 +1,11 @@
-import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
+import { signIn } from 'next-auth/react';
 import validator from 'validator';
 
 const LoginScreen = () => {
+  const router = useRouter();
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -12,7 +15,7 @@ const LoginScreen = () => {
     setLoginForm({ ...loginForm, ...updatedValue });
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = async () => {
     if (loginForm.email && loginForm.password) {
       if (!validator.isEmail(loginForm.email)) {
         setErrorMsg('Invalid Email');
@@ -20,6 +23,9 @@ const LoginScreen = () => {
       }
 
       setErrorMsg('');
+
+      const response = await signIn('credentials', loginForm);
+      console.log(response);
 
       return;
     }

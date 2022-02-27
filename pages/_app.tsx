@@ -1,25 +1,16 @@
 import { NextUIProvider } from '@nextui-org/react';
 import { globalStyles } from '../src/theme/styles';
-import { UserProvider } from '../src/context/UserContext';
-import { IUser } from '../src/interfaces/IUser';
-import { useState } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
-const App = ({ Component, pageProps }) => {
-  const [userData, setUserData] = useState<IUser>({
-    name: null,
-    email: null,
-    profilePicture: null,
-    token: null,
-  });
-
-  //globalStyles();
+const App = ({ Component, pageProps: { session, ...pageProps } }) => {
+  globalStyles();
 
   return (
-    <UserProvider value={{ userData, setUserData }}>
+    <SessionProvider session={session}>
       <NextUIProvider>
         <Component {...pageProps} />
       </NextUIProvider>
-    </UserProvider>
+    </SessionProvider>
   );
 };
 
