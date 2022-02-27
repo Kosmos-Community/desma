@@ -1,22 +1,10 @@
 import { Container, Input, Row, Spacer } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
-import useDesignContext, {
-  EDesignAction,
-  EScaleFactor,
-} from '../../context/DesignContext';
+import useDesignContext, { EDesignAction } from '../../context/DesignContext';
+import { SCALE_OPTIONS, TABLE_HEADERS } from '../../utils/constants';
 import { handleSpacingScale } from '../../utils/scaleFactor';
 import Dropdown from '../atoms/Dropdown';
 import Table from '../molecules/Table';
-
-const options: EScaleFactor[] = [
-  EScaleFactor.GOLDEN_RATIO,
-  EScaleFactor.MAJOR_SECOND,
-  EScaleFactor.MINOR_SECOND,
-  EScaleFactor.MINOR_THIRD,
-  EScaleFactor.MAJOR_THIRD,
-];
-
-const TABLE_HEADERS = ['Name', 'Space', 'Pixels', ''];
 
 const SpacingSection = () => {
   const { designData, setDesignState } = useDesignContext();
@@ -60,7 +48,7 @@ const SpacingSection = () => {
         />
         <Spacer />
         <Dropdown
-          options={options}
+          options={SCALE_OPTIONS}
           label="Scale Factor"
           placeholder="Select your option"
           value={scaleFactor}

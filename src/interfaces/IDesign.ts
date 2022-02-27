@@ -32,6 +32,7 @@ export interface ISpacing {
 }
 
 export interface IDesign {
+  name: string;
   palette: IPallette;
   font: IFonts;
   spacing: ISpacing;
@@ -46,4 +47,3 @@ export interface ICollection {
   designData: IDesign;
   setDesignState?: Dispatch<ICollectionDispatcher>;
 }
-

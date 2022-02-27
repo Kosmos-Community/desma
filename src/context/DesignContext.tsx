@@ -14,9 +14,11 @@ export enum EDesignAction {
   SET_PALETTE = 'SET_PALETTE',
   SET_FONTS = 'SET_FONTS',
   SET_SPACING = 'SET_SPACING',
+  SET_NAME = 'SET_NAME',
 }
 
 export const designData: IDesign = {
+  name: 'Untitled Design',
   palette: PALLETTE,
   font: FONT,
   spacing: SPACING,
@@ -40,6 +42,11 @@ export const setDesignState = (state: ICollection, action): any => {
       return {
         ...state,
         spacing: action.payload,
+      };
+    case EDesignAction.SET_NAME:
+      return {
+        ...state,
+        name: action.payload,
       };
 
     default: {
