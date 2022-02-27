@@ -14,6 +14,7 @@ import {
   setDesignState,
 } from '../../src/context/DesignContext';
 import FontSection from '../../src/components/organisms/FontSection';
+import Preview from '../../src/components/organisms/Preview';
 
 const Home = () => {
   const [tabState, setTabState] = useState(0);
@@ -42,7 +43,7 @@ const Home = () => {
               <SpacingSection />
             </TabPanel>
             <TabPanel>
-              <Text>test</Text>
+              <Preview />
             </TabPanel>
           </TabPanels>
         </Tabs>
