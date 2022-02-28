@@ -9,11 +9,10 @@ export enum EScaleFactor {
 }
 
 export const PALLETTE: IPallette = {
-  id: '',
   primaryColor: [],
   secondaryColor: [],
   textColor: [],
-  backgroundColor: [],
+  backgroundColors: [],
   extraColors: [],
 };
 
@@ -24,7 +23,7 @@ export const SPACING: ISpacing = {
 
 export const FONT: IFonts = {
   headingFontName: 'Inter',
-  paragraphFontName: 'Inter',
+  parragraphFontName: 'Inter',
   baseSize: 16,
   scaleFactor: EScaleFactor.MINOR_SECOND,
 };
