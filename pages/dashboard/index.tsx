@@ -1,7 +1,12 @@
+import React, { useEffect } from 'react';
 import { Button, Container, Link, Spacer, Text } from '@nextui-org/react';
-import React from 'react';
+import { withIronSessionSsr } from 'iron-session/next';
+
 import ProjectCard from '../../src/components/molecules/ProjectCard';
 import AppLayout from '../../src/components/templates/AppLayout';
+import { ironOptions } from '../../lib/config';
+import { serverSidePropsProtected } from '../../lib/authServerSide';
+import useUserContext from '../../src/context/UserContext';
 
 const DESIGN_SYSTEMS = [
   {
@@ -18,7 +23,14 @@ const DESIGN_SYSTEMS = [
   },
 ];
 
-const Home = () => {
+const Home = ({ user }) => {
+  const { setUserData } = useUserContext();
+
+  useEffect(() => {
+    if (!user) return;
+    setUserData(user);
+  }, [user, setUserData]);
+
   return (
     <AppLayout>
       <Container
@@ -84,5 +96,10 @@ const Home = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = withIronSessionSsr(
+  serverSidePropsProtected,
+  ironOptions
+);
 
 export default Home;

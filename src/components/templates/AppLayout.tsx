@@ -1,6 +1,5 @@
-import { Avatar, Button, Container, Spacer, Text } from '@nextui-org/react';
-import Link from 'next/link';
-import React, { useState } from 'react';
+import React  from 'react';
+import { Container } from '@nextui-org/react';
 import Nav from '../organisms/Nav';
 
 const AppLayout = ({ children }) => {
