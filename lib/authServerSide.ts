@@ -1,4 +1,4 @@
-import { DESIGN_USERS_URL } from '../src/utils/constants';
+import { DESIGN_USERS_URL, DESIGN_URL } from '../src/utils/constants';
 
 export const serverSideProps = async ({ req }: any): Promise<any> => {
   const user = req.session.user || null;
@@ -28,6 +28,40 @@ export const serverSidePropsDesigns = async ({ req }: any): Promise<any> => {
   if (responseDesigns.ok) {
     data.props['designs'] = userDesigns;
   }
+
+  return data;
+};
+
+export const serverSidePropsDesigner = async ({ params, req }: any): Promise<any> => {
+  // Check if User is logged in
+  const data = await serverSidePropsProtected({ req });
+
+  // Redirect to / if user isn't logged in
+  if (!data.hasOwnProperty('props')) return data;
+
+  // Get the user data
+  const { user } = data.props;
+
+  // Fetch the current design system info
+  const resDesigner = await fetch(`${DESIGN_URL}/${params.designer_id}`, {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  });
+
+  // Redirect to dashboard if the DS doesn't exist
+  if (resDesigner.status == 400 || resDesigner.status == 404) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/dashboard',
+      },
+    };
+  }
+
+  const resDesignerData = await resDesigner.json();
+
+  data.props['designSystem'] = resDesignerData;
 
   return data;
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Button, Input, Loading, Row, Spacer } from '@nextui-org/react';
+import { Button, Input, Loading, Row, Spacer, Text } from '@nextui-org/react';
 import { Tab } from '../../src/components/atoms/Tab';
 import { TabList } from '../../src/components/atoms/TabList';
 import { TabPanel } from '../../src/components/atoms/TabPanel';
@@ -17,7 +17,7 @@ import {
 import FontSection from '../../src/components/organisms/FontSection';
 import Preview from '../../src/components/organisms/Preview';
 import { withIronSessionSsr } from 'iron-session/next';
-import { serverSidePropsProtected } from '../../lib/authServerSide';
+import { serverSidePropsDesigner } from '../../lib/authServerSide';
 import { ironOptions } from '../../lib/config';
 import useUserContext from '../../src/context/UserContext';
 import {
@@ -28,12 +28,14 @@ import {
 } from '../../src/utils/constants';
 import { useRouter } from 'next/router';
 
-const Home = ({ user }) => {
+const Home = ({ user, designSystem }) => {
   const router = useRouter();
   const [tabState, setTabState] = useState(0);
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useReducer(setDesignState, designData);
   const { setUserData } = useUserContext();
+
+  console.log(designSystem);
 
   useEffect(() => {
     if (!user) return;
@@ -146,7 +148,7 @@ const Home = ({ user }) => {
 };
 
 export const getServerSideProps = withIronSessionSsr(
-  serverSidePropsProtected,
+  serverSidePropsDesigner,
   ironOptions
 );
 

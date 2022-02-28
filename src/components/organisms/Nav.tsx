@@ -80,13 +80,6 @@ const Nav = () => {
             Home
           </Link>
         </Button>
-
-        <Button>
-          <Link href="#" css={{ color: 'white' }}>
-            <HiUserCircle style={{ marginRight: '.5rem' }} />
-            Account
-          </Link>
-        </Button>
         <Button onClick={handleSignOut}>
           <Link href="#" css={{ color: 'white' }}>
             <HiOutlineLogout style={{ marginRight: '.5rem' }} />

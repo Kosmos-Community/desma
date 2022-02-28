@@ -13,8 +13,6 @@ const Home = ({ user, designs }) => {
 
   const { message, data } = designs || { message: undefined, data: [] };
 
-  console.log(data);
-
   useEffect(() => {
     if (!user) return;
     setUserData(user);
@@ -78,11 +76,7 @@ const Home = ({ user, designs }) => {
               }}
             >
               {data.map((project, index) => (
-                <ProjectCard
-                  key={index}
-                  name={project.name}
-                  projectID={project.paletteId}
-                />
+                <ProjectCard key={index} name={project.name} projectID={project._id} />
               ))}
             </Container>
           </>
