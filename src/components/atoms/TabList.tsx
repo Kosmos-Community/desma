@@ -3,8 +3,7 @@ import { Container } from '@nextui-org/react';
 import { ITabChild } from '../../interfaces/ITabs';
 
 export const TabList = ({ children }: ITabChild) => {
-  const panelArray = children instanceof Array ? children : [children];
-  const panels = panelArray.filter((child) => child.type.name === 'Tab');
+  const panels = children instanceof Array ? children : [children];
 
   return (
     <Container

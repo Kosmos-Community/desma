@@ -5,7 +5,8 @@ export const TabPanels = ({ children }: ITabChild) => {
   const { tabState } = useTabsContext();
 
   const panelArray = children instanceof Array ? children : [children];
-  const panels = panelArray.filter((child) => child.type.name === 'TabPanel');
-  const [result] = panels.filter((child, index) => index === tabState);
+  if (panelArray.length <= 0) return <></>;
+  const result = panelArray.find((child, index) => index === tabState);
+  if (!result) return <></>;
   return result;
 };
