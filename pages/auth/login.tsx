@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
+import { Container, Input, Button, Text, Link, Spacer, Loading } from '@nextui-org/react';
 import validator from 'validator';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/config';
@@ -9,6 +9,7 @@ import { serverSidePropsAuth } from '../../lib/authServerSide';
 const LoginScreen = () => {
   const router = useRouter();
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const onInputChange = (event) => {
@@ -28,6 +29,7 @@ const LoginScreen = () => {
       return;
     }
 
+    setLoading(true);
     const response = await fetch('/api/auth', {
       method: 'POST',
       headers: {
@@ -44,6 +46,8 @@ const LoginScreen = () => {
     } else {
       setErrorMsg('User not found');
     }
+
+    setLoading(false);
   };
 
   return (
@@ -79,7 +83,7 @@ const LoginScreen = () => {
       />
       <Spacer y={2} />
       <Button css={{ width: '100%', marginBottom: '.5rem' }} onClick={onFormSubmit}>
-        Login
+        {loading ? <Loading color="white" size="sm" /> : 'Login'}
       </Button>
       <Text small>
         Need an account? <Link href="/auth/register">Register</Link>

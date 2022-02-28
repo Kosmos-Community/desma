@@ -9,3 +9,6 @@ export const SCALE_OPTIONS: EScaleFactor[] = [
 ];
 
 export const TABLE_HEADERS = ['Name', 'Space', 'Pixels', ''];
+
+export const GOOGLE_FONTS_URL = 'https://fonts.googleapis.com/css2?family=';
+export const WEIGHT_QUERY = ':wght@400;700&display=swap';
