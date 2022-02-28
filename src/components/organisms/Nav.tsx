@@ -1,9 +1,11 @@
 import { Container, Text, Link, Button, Avatar, keyframes } from '@nextui-org/react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { HiHome, HiUserCircle, HiOutlineLogout } from 'react-icons/hi';
 import useUserContext from '../../context/UserContext';
 
 const Nav = () => {
+  const router = useRouter();
   const { userData, setUserData } = useUserContext();
   const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
   let onMouseLeavingAvatar;
@@ -12,6 +14,16 @@ const Nav = () => {
     '0%': { transform: 'translateY(-5px)' },
     '100%': { transform: 'translateY(0)' },
   });
+
+  const handleSignOut = async () => {
+    const resSignOut = await fetch('/api/logout', {
+      method: 'POST',
+    });
+    if (resSignOut.ok) {
+      setUserData({ ...userData, token: '' });
+      router.push('/');
+    }
+  };
 
   const loggedOutOptions = (
     <div style={{ display: 'flex' }}>
@@ -75,7 +87,7 @@ const Nav = () => {
             Account
           </Link>
         </Button>
-        <Button>
+        <Button onClick={handleSignOut}>
           <Link href="#" css={{ color: 'white' }}>
             <HiOutlineLogout style={{ marginRight: '.5rem' }} />
             Sign Out

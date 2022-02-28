@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Input, Spacer, Text } from '@nextui-org/react';
 import { Tab } from '../../src/components/atoms/Tab';
 import { TabList } from '../../src/components/atoms/TabList';
@@ -15,10 +15,20 @@ import {
 } from '../../src/context/DesignContext';
 import FontSection from '../../src/components/organisms/FontSection';
 import Preview from '../../src/components/organisms/Preview';
+import { withIronSessionSsr } from 'iron-session/next';
+import { serverSidePropsProtected } from '../../lib/authServerSide';
+import { ironOptions } from '../../lib/config';
+import useUserContext from '../../src/context/UserContext';
 
-const Home = () => {
+const Home = ({ user }) => {
   const [tabState, setTabState] = useState(0);
   const [state, dispatch] = useReducer(setDesignState, designData);
+  const { setUserData } = useUserContext();
+
+  useEffect(() => {
+    if (!user) return;
+    setUserData(user);
+  }, [user, setUserData]);
 
   return (
     <DesignProvider value={{ setDesignState: dispatch, designData: state }}>
@@ -51,5 +61,10 @@ const Home = () => {
     </DesignProvider>
   );
 };
+
+export const getServerSideProps = withIronSessionSsr(
+  serverSidePropsProtected,
+  ironOptions
+);
 
 export default Home;

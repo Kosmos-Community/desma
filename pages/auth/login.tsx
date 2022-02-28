@@ -1,8 +1,13 @@
-import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
 import validator from 'validator';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/config';
+import { serverSidePropsAuth } from '../../lib/authServerSide';
 
 const LoginScreen = () => {
+  const router = useRouter();
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -12,20 +17,33 @@ const LoginScreen = () => {
     setLoginForm({ ...loginForm, ...updatedValue });
   };
 
-  const onFormSubmit = () => {
-    if (loginForm.email && loginForm.password) {
-      if (!validator.isEmail(loginForm.email)) {
-        setErrorMsg('Invalid Email');
-        return;
-      }
-
-      setErrorMsg('');
-
+  const onFormSubmit = async () => {
+    if (!loginForm.email || !loginForm.password) {
+      setErrorMsg('Please fill all fields');
       return;
     }
 
-    setErrorMsg('Please fill all fields');
-    return;
+    if (!validator.isEmail(loginForm.email)) {
+      setErrorMsg('Invalid Email');
+      return;
+    }
+
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: loginForm.email,
+        password: loginForm.password,
+      }),
+    });
+
+    if (response.ok) {
+      router.push('/dashboard');
+    } else {
+      setErrorMsg('User not found');
+    }
   };
 
   return (
@@ -86,5 +104,7 @@ const LoginScreen = () => {
     </Container>
   );
 };
+
+export const getServerSideProps = withIronSessionSsr(serverSidePropsAuth, ironOptions);
 
 export default LoginScreen;

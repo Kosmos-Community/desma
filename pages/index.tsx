@@ -1,6 +1,11 @@
 import { Grid, Spacer, Text } from '@nextui-org/react';
 import AppLayout from '../src/components/templates/AppLayout';
 import Feature from '../src/components/molecules/Feature';
+import { withIronSessionSsr } from 'iron-session/next';
+import { serverSideProps } from '../lib/authServerSide';
+import { ironOptions } from '../lib/config';
+import { useEffect } from 'react';
+import useUserContext from '../src/context/UserContext';
 
 const features = [
   {
@@ -20,7 +25,14 @@ const features = [
   },
 ];
 
-const Index = () => {
+const Index = ({ user }) => {
+  const { userData, setUserData } = useUserContext();
+
+  useEffect(() => {
+    if (!user) return;
+    setUserData(user);
+  }, [user, setUserData, userData]);
+
   return (
     <AppLayout>
       <Spacer y={4} />
@@ -52,5 +64,7 @@ const Index = () => {
     </AppLayout>
   );
 };
+
+export const getServerSideProps = withIronSessionSsr(serverSideProps, ironOptions);
 
 export default Index;

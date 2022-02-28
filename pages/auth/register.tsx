@@ -1,12 +1,13 @@
 import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
+import { withIronSessionSsr } from 'iron-session/next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import validator from 'validator';
-import useUserContext from '../../src/context/UserContext';
+import { serverSidePropsAuth } from '../../lib/authServerSide';
+import { ironOptions } from '../../lib/config';
 
 const RegisterScreen = () => {
   const router = useRouter();
-  const { userData, setUserData } = useUserContext();
 
   const [registerForm, setRegisterForm] = useState({
     name: '',
@@ -23,55 +24,60 @@ const RegisterScreen = () => {
   };
 
   const onRegister = async () => {
-    if (registerForm.email && registerForm.password && registerForm.confirmPassword) {
-      if (!validator.isEmail(registerForm.email)) {
-        setErrorMsg('Email is not valid');
-        return;
-      }
+    if (!registerForm.email || !registerForm.password || !registerForm.confirmPassword) {
+      setErrorMsg('Please fill all fields');
+      return;
+    }
 
-      if (registerForm.password != registerForm.confirmPassword) {
-        setErrorMsg("Passwords doesn't match");
-        return;
-      }
+    if (!validator.isEmail(registerForm.email)) {
+      setErrorMsg('Email is not valid');
+      return;
+    }
 
-      // Clear the Error Message if any
-      setErrorMsg('');
+    if (registerForm.password != registerForm.confirmPassword) {
+      setErrorMsg("Passwords doesn't match");
+      return;
+    }
 
-      const reqRegister = await fetch('https://desma-test.onrender.com/api/users', {
+    // Clear the Error Message if any
+    setErrorMsg('');
+
+    const reqRegister = await fetch('https://desma-test.onrender.com/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: registerForm.name,
+        email: registerForm.email,
+        password: registerForm.password,
+      }),
+    });
+
+    if (reqRegister.status == 401) {
+      setErrorMsg('Email already exists');
+      return;
+    }
+
+    if (reqRegister.status == 201) {
+      // Update user data to login
+      const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: registerForm.name,
           email: registerForm.email,
           password: registerForm.password,
         }),
       });
 
-      const reqRegisterData = await reqRegister.json();
-
-      if (reqRegister.status == 401) {
-        setErrorMsg('Email already exists');
-        return;
-      }
-
-      if (reqRegister.status == 201) {
-        // Update user data to login
-        setUserData({
-          ...userData,
-          email: reqRegisterData.email,
-          token: reqRegisterData.token,
-        });
-
+      if (response.ok) {
         // Redirect to dashboard
         router.push('/dashboard');
       }
-
-      return;
     }
 
-    setErrorMsg('Please fill all fields');
     return;
   };
 
@@ -146,5 +152,7 @@ const RegisterScreen = () => {
     </Container>
   );
 };
+
+export const getServerSideProps = withIronSessionSsr(serverSidePropsAuth, ironOptions);
 
 export default RegisterScreen;
