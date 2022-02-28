@@ -13,6 +13,8 @@ const Home = ({ user, designs }) => {
 
   const { message, data } = designs || { message: undefined, data: [] };
 
+  console.log(data);
+
   useEffect(() => {
     if (!user) return;
     setUserData(user);
@@ -66,7 +68,7 @@ const Home = ({ user, designs }) => {
             <Spacer />
             <Container
               css={{
-                width: '100%',
+                width: 'auto',
                 display: 'grid',
                 gridTemplateColumns: 'repeat( auto-fit, minmax(280px, 1fr) )',
                 justifyContent: 'center',
@@ -76,7 +78,11 @@ const Home = ({ user, designs }) => {
               }}
             >
               {data.map((project, index) => (
-                <ProjectCard key={index} name={project.name} />
+                <ProjectCard
+                  key={index}
+                  name={project.name}
+                  projectID={project.paletteId}
+                />
               ))}
             </Container>
           </>
