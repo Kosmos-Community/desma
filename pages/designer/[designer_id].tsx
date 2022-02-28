@@ -35,8 +35,6 @@ const Home = ({ user, designSystem }) => {
   const [state, dispatch] = useReducer(setDesignState, designData);
   const { setUserData } = useUserContext();
 
-  console.log(designSystem);
-
   useEffect(() => {
     if (!user) return;
     setUserData(user);

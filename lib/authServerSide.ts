@@ -1,4 +1,10 @@
-import { DESIGN_USERS_URL, DESIGN_URL } from '../src/utils/constants';
+import {
+  DESIGN_USERS_URL,
+  DESIGN_URL,
+  PALETTE_URL,
+  FONT_URL,
+  SPACING_URL,
+} from '../src/utils/constants';
 
 export const serverSideProps = async ({ req }: any): Promise<any> => {
   const user = req.session.user || null;
@@ -25,6 +31,7 @@ export const serverSidePropsDesigns = async ({ req }: any): Promise<any> => {
   });
 
   const userDesigns = await responseDesigns.json();
+
   if (responseDesigns.ok) {
     data.props['designs'] = userDesigns;
   }
@@ -61,10 +68,26 @@ export const serverSidePropsDesigner = async ({ params, req }: any): Promise<any
 
   const resDesignerData = await resDesigner.json();
 
+  getColors(user.token, resDesignerData.data.paletteId);
+
   data.props['designSystem'] = resDesignerData;
 
   return data;
 };
+
+const getColors = async (userToken: string, id: string) => {
+  const resColors = await fetch(`${PALETTE_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  const resColorsData = await resColors.json();
+  console.log(resColorsData);
+};
+
+const getFonts = async (userToken: string, id: string) => {};
+
+const getSpacing = async (userToken: string, id: string) => {};
 
 export const serverSidePropsProtected = async ({ req }: any): Promise<any> => {
   const user = req.session.user || null;

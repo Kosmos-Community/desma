@@ -42,7 +42,11 @@ const Nav = () => {
 
   const loggedInOptions = (
     <div
-      style={{ position: 'relative' }}
+      style={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+      }}
       onMouseOver={() => {
         clearTimeout(onMouseLeavingAvatar);
         setAvatarHovered(true);
@@ -53,6 +57,21 @@ const Nav = () => {
         }, 200);
       }}
     >
+      <Container
+        css={{
+          textAlign: 'right',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'end',
+        }}
+      >
+        <Text h6 weight="medium" color="primary" css={{ margin: 0 }}>
+          {userData.name}
+        </Text>
+        <Text small css={{ color: '#888' }}>
+          {userData.email}
+        </Text>
+      </Container>
       <Avatar
         src={`https://avatars.dicebear.com/api/micah/${userData.email}.svg`}
         text="Reyes"
