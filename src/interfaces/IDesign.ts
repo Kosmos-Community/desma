@@ -9,18 +9,17 @@ export interface IColor {
 }
 
 export interface IPallette {
-  id?: string;
   primaryColor: IColor[];
   secondaryColor: IColor[];
   textColor: IColor[];
-  backgroundColor: IColor[];
+  backgroundColors: IColor[];
   extraColors: IColor[];
 }
 
 export interface IFonts {
   id?: string;
   headingFontName: string;
-  paragraphFontName: string;
+  parragraphFontName: string;
   baseSize: number;
   scaleFactor: EScaleFactor;
 }

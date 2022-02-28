@@ -5,26 +5,13 @@ import { withIronSessionSsr } from 'iron-session/next';
 import ProjectCard from '../../src/components/molecules/ProjectCard';
 import AppLayout from '../../src/components/templates/AppLayout';
 import { ironOptions } from '../../lib/config';
-import { serverSidePropsProtected } from '../../lib/authServerSide';
+import { serverSidePropsDesigns } from '../../lib/authServerSide';
 import useUserContext from '../../src/context/UserContext';
 
-const DESIGN_SYSTEMS = [
-  {
-    name: 'My First Design',
-  },
-  {
-    name: 'My Second Design',
-  },
-  {
-    name: 'My Third Design',
-  },
-  {
-    name: 'My Fourth Design',
-  },
-];
-
-const Home = ({ user }) => {
+const Home = ({ user, designs }) => {
   const { setUserData } = useUserContext();
+
+  const { message, data } = designs || { message: undefined, data: [] };
 
   useEffect(() => {
     if (!user) return;
@@ -56,7 +43,7 @@ const Home = ({ user }) => {
               My Design Systems
             </Text>
             <Text css={{ color: '$gray600' }}>
-              {DESIGN_SYSTEMS.length} Design System generated
+              {message ? '0' : data.length} Design System generated
             </Text>
           </Container>
           <Link href="/designer">
@@ -65,12 +52,14 @@ const Home = ({ user }) => {
             </Button>
           </Link>
         </Container>
-        {DESIGN_SYSTEMS.length <= 0 ? (
+        {message ? (
           <>
-            <Spacer y={10} />
-            <Button bordered color="gradient">
-              Add Design System
-            </Button>
+            <Spacer y={8} />
+            <Link href="/designer">
+              <Button bordered color="gradient">
+                Add Design System
+              </Button>
+            </Link>
           </>
         ) : (
           <>
@@ -86,7 +75,7 @@ const Home = ({ user }) => {
                 gap: '1rem',
               }}
             >
-              {DESIGN_SYSTEMS.map((project, index) => (
+              {data.map((project, index) => (
                 <ProjectCard key={index} name={project.name} />
               ))}
             </Container>
@@ -97,9 +86,6 @@ const Home = ({ user }) => {
   );
 };
 
-export const getServerSideProps = withIronSessionSsr(
-  serverSidePropsProtected,
-  ironOptions
-);
+export const getServerSideProps = withIronSessionSsr(serverSidePropsDesigns, ironOptions);
 
 export default Home;

@@ -18,11 +18,11 @@ const FontSection = () => {
   const [paragraph, setParagraph] = useState('');
   const [baseSize, setBaseSize] = useState(designData.font.baseSize);
   const [scaleFactor, setScaleFactor] = useState(designData.font.scaleFactor);
-  const { headingFontName, paragraphFontName } = designData.font;
+  const { headingFontName, parragraphFontName } = designData.font;
 
   useEffect(() => {
     const newHeading = headingFontName.replace(/\s/g, '+');
-    const newParagraph = paragraphFontName.replace(/\s/g, '+');
+    const newParagraph = parragraphFontName.replace(/\s/g, '+');
     const headingLink = `${GOOGLE_FONTS_URL}${newHeading}${WEIGHT_QUERY}`;
     const paragraphLink = `${GOOGLE_FONTS_URL}${newParagraph}${WEIGHT_QUERY}`;
     const link = document.createElement('link');
@@ -45,7 +45,7 @@ const FontSection = () => {
       link.href = paragraphLink;
       document.head.appendChild(link);
     }
-  }, [headingFontName, paragraphFontName]);
+  }, [headingFontName, parragraphFontName]);
 
   useEffect(() => {
     setDesignState({
@@ -67,7 +67,7 @@ const FontSection = () => {
       payload: {
         ...designData.font,
         headingFontName: heading,
-        paragraphFontName: paragraph,
+        parragraphFontName: paragraph,
       },
     });
   };
@@ -117,7 +117,7 @@ const FontSection = () => {
         </Grid>
         <Grid>
           <Text>Paragraphs</Text>
-          <FontContainer headingFontName={paragraphFontName} fontWeight="400">
+          <FontContainer headingFontName={parragraphFontName} fontWeight="400">
             <Text>AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz</Text>
             <Spacer />
             <Text>1234567890!@£$%^&*()</Text>

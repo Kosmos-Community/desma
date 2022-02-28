@@ -1,10 +1,11 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../lib/config';
+import { AUTH_URL } from '../../src/utils/constants';
 
 async function loginRoute(req, res) {
   // get user from database then:
   if (req.method === 'POST') {
-    const response = await fetch('https://desma-test.onrender.com/api/users/login', {
+    const response = await fetch(AUTH_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

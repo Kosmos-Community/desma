@@ -1,3 +1,5 @@
+import { DESIGN_USERS_URL } from '../src/utils/constants';
+
 export const serverSideProps = async ({ req }: any): Promise<any> => {
   const user = req.session.user || null;
   if (!user) return { props: { user: null } };
@@ -10,6 +12,24 @@ export const serverSideProps = async ({ req }: any): Promise<any> => {
       user,
     },
   };
+};
+
+export const serverSidePropsDesigns = async ({ req }: any): Promise<any> => {
+  const data = await serverSidePropsProtected({ req });
+  if (!data.hasOwnProperty('props')) return data;
+  const { user } = data.props;
+  const responseDesigns = await fetch(`${DESIGN_USERS_URL}/${user.id}`, {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  });
+
+  const userDesigns = await responseDesigns.json();
+  if (responseDesigns.ok) {
+    data.props['designs'] = userDesigns;
+  }
+
+  return data;
 };
 
 export const serverSidePropsProtected = async ({ req }: any): Promise<any> => {
