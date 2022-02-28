@@ -14,7 +14,7 @@ const ColorSection = () => {
   const { designData, setDesignState } = useDesignContext();
 
   const { palette: colors } = designData;
-  const { id, ...palette } = colors;
+  const { ...palette } = colors;
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {
