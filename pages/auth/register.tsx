@@ -1,4 +1,4 @@
-import { Container, Input, Button, Text, Link, Spacer } from '@nextui-org/react';
+import { Container, Input, Button, Text, Link, Spacer, Loading } from '@nextui-org/react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -15,6 +15,7 @@ const RegisterScreen = () => {
     password: '',
     confirmPassword: '',
   });
+  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const onInputChange = (event) => {
@@ -41,6 +42,7 @@ const RegisterScreen = () => {
 
     // Clear the Error Message if any
     setErrorMsg('');
+    setLoading(true);
 
     const reqRegister = await fetch('https://desma-test.onrender.com/api/users', {
       method: 'POST',
@@ -77,6 +79,8 @@ const RegisterScreen = () => {
         router.push('/dashboard');
       }
     }
+
+    setLoading(false);
 
     return;
   };
@@ -127,7 +131,7 @@ const RegisterScreen = () => {
       />
       <Spacer y={2} />
       <Button onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
-        Register
+        {loading ? <Loading color="white" size="sm" /> : 'Register'}
       </Button>
       <Text small>
         Already have an account? <Link href="/auth/login">Login</Link>
