@@ -11,7 +11,7 @@ const features = [
   {
     tag: 'Blazing Fast',
     title: 'Design Process',
-    desc: 'Enhance your design process by usin an All-in-One webapp.',
+    desc: 'Enhance your design process by using an All-in-One webapp.',
   },
   {
     tag: 'Auto-Backup',

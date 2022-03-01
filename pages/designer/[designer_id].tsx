@@ -204,7 +204,7 @@ const Home = ({ user, palette, fonts, spacing, info, originalPalette }) => {
                 <Loading color="error" size="sm" />
               ) : (
                 <>
-                  <Button css={{ minWidth: '150px', backgroundColor: '$accents4' }}>
+                  <Button css={{ minWidth: '150px', backgroundColor: '$accents4' }} onClick={() => setModalVisible(false)}>
                     Cancel
                   </Button>
                   <Spacer />

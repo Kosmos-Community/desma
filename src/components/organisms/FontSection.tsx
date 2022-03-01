@@ -30,7 +30,8 @@ const FontSection = () => {
     const newParagraph = parragraphFontName.replace(/\s/g, '+');
     const headingLink = `${GOOGLE_FONTS_URL}${newHeading}${WEIGHT_QUERY}`;
     const paragraphLink = `${GOOGLE_FONTS_URL}${newParagraph}${WEIGHT_QUERY}`;
-    const link = document.createElement('link');
+    const link1 = document.createElement('link');
+    const link2 = document.createElement('link');
 
     const links = document.getElementsByTagName('link');
 
@@ -39,16 +40,17 @@ const FontSection = () => {
     for (let item of Array.from(links)) {
       if (item.href === headingLink) headingLinkExists = true;
     }
-    link.rel = 'stylesheet';
+    link1.rel = 'stylesheet';
 
     if (!headingLinkExists) {
-      link.href = headingLink;
-      document.head.appendChild(link);
+      link1.href = headingLink;
+      document.head.appendChild(link1);
     }
 
+    link2.rel = 'stylesheet';
     if (!paragraphLinkExists) {
-      link.href = paragraphLink;
-      document.head.appendChild(link);
+      link2.href = paragraphLink;
+      document.head.appendChild(link2);
     }
   }, [headingFontName, parragraphFontName]);
 
