@@ -28,7 +28,7 @@ import {
 } from '../../src/utils/constants';
 import { useRouter } from 'next/router';
 
-const Home = ({ user, palette, fonts, spacing, info }) => {
+const Home = ({ user, palette, fonts, spacing, info, originalPalette }) => {
   const router = useRouter();
   const [tabState, setTabState] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const Home = ({ user, palette, fonts, spacing, info }) => {
 
     dispatch({
       type: EDesignAction.SET_PALETTE,
-      payload: palette,
+      payload: { ...palette },
     });
 
     dispatch({
@@ -63,17 +63,65 @@ const Home = ({ user, palette, fonts, spacing, info }) => {
   }, [user, setUserData]);
 
   const handleDesignSave = async () => {
-    console.log(info);
-
     setLoading(true);
     try {
+      const paletteWithoutIds = { ...state.palette };
+
+      const primaryColors = originalPalette.primaryColor.map((color) => color._id);
+      const secondaryColors = originalPalette.secondaryColor.map((color) => color._id);
+      const textColor = originalPalette.textColor.map((color) => color._id);
+      const backgroundColors = originalPalette.backgroundColors.map((color) => color._id);
+      const extraColors = originalPalette.extraColors.map((color) => color._id);
+
+      paletteWithoutIds.primaryColor = paletteWithoutIds.primaryColor.map((color) => {
+        if (primaryColors.includes(color._id)) {
+          return color;
+        } else {
+          return { hexCode: color.hexCode };
+        }
+      });
+
+      paletteWithoutIds.secondaryColor = paletteWithoutIds.secondaryColor.map((color) => {
+        if (secondaryColors.includes(color._id)) {
+          return color;
+        } else {
+          return { hexCode: color.hexCode };
+        }
+      });
+
+      paletteWithoutIds.textColor = paletteWithoutIds.textColor.map((color) => {
+        if (textColor.includes(color._id)) {
+          return color;
+        } else {
+          return { hexCode: color.hexCode };
+        }
+      });
+
+      paletteWithoutIds.backgroundColors = paletteWithoutIds.backgroundColors.map(
+        (color) => {
+          if (backgroundColors.includes(color._id)) {
+            return color;
+          } else {
+            return { hexCode: color.hexCode };
+          }
+        }
+      );
+
+      paletteWithoutIds.extraColors = paletteWithoutIds.extraColors.map((color) => {
+        if (extraColors.includes(color._id)) {
+          return color;
+        } else {
+          return { hexCode: color.hexCode };
+        }
+      });
+
       const paletteRes = await fetch(`${PALETTE_URL}/${info.data.paletteId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify(state.palette),
+        body: JSON.stringify(paletteWithoutIds),
       });
 
       const fontRes = await fetch(`${FONT_URL}/${info.data.fontsId}`, {

@@ -72,6 +72,7 @@ export const serverSidePropsDesigner = async ({ params, req }: any): Promise<any
   data.props['palette'] = await getColors(user.token, resDesignerData.data.paletteId);
   data.props['fonts'] = await getFonts(user.token, resDesignerData.data.fontsId);
   data.props['spacing'] = await getSpacing(user.token, resDesignerData.data.spacingsId);
+  data.props['originalPalette'] = { ...data.props.palette };
 
   return data;
 };
