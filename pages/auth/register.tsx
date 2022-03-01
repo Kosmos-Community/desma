@@ -56,8 +56,9 @@ const RegisterScreen = () => {
       }),
     });
 
-    if (reqRegister.status == 401) {
+    if (reqRegister.status == 400) {
       setErrorMsg('Email already exists');
+      setLoading(false);
       return;
     }
 
