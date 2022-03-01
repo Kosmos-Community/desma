@@ -32,7 +32,7 @@ export interface ISpacing {
 }
 
 export interface IDesign {
-  _id: any;
+  _id?: any;
   name: string;
   palette: IPallette;
   font: IFonts;
