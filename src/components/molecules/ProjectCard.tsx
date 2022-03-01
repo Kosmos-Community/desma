@@ -9,7 +9,7 @@ interface IProjectCard {
 
 const ProjectCard = ({ name, projectID, seed }: IProjectCard) => {
   return (
-    <Link href={`designer/${projectID}`} css={{ maxWidth: '200px' }}>
+    <Link href={`designer/${projectID}`} css={{ maxWidth: '260px' }}>
       <Card
         clickable
         css={{

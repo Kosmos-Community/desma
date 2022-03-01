@@ -73,8 +73,7 @@ const Home = ({ user, designs }) => {
                 alignItems: 'center',
                 padding: 0,
                 gap: '1rem',
-              }}
-            >
+              }}>
               {data.map((project, index) => (
                 <ProjectCard
                   key={index}
