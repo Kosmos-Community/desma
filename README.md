@@ -30,30 +30,35 @@ The idea of **Desma** is to save multiple features that a design can hold at onc
 -   **Color Palette** 🎨
 
 You can save your whole color palette for primary, secondary, background, font and extra colors.
-<br/>
-![DesmaPalette](./assets/desma-palette.png)
+<div style="margin-top:10px">
+  <img src="./assets/desma-palette.png"/>
+</div>
 <br/>
 
 -   **Fonts** ⌨️
 
 There's a space where you can input your fonts directly from google fonts to preview your headings and paragraphs. Also you can generate a font scaling palette for all your headings given a scale factor.
-<br/>
-![DesmaFonts](./assets/desma-fonts.png)
+<div style="margin-top:10px">
+  <img src="./assets/desma-fonts.png"/>
+</div>
 <br/>
 
 -   **Spacings** ↔️
 
 Generate the spacing you need for your system to breathe between sections.
+<div style="margin-top:10px">
+  <img src="./assets/desma-spacing.png"/>
+</div>
 <br/>
-![DesmaSpacing](./assets/desma-spacing.png)
-<br/>
+
 
 -   **Preview** 💻
 
 One of the best things is that **Desma** has prepared a preview tab where you can watch your designs come to live and see how everything would contrast together!
+<div style="margin-top:10px">
+  <img src="./assets/desma-preview.png"/>
+</div>
 <br/>
-![DesmaPreview](./assets/desma-preview.png)
-
 
 ## Future Development 👨🏽‍💻
 
