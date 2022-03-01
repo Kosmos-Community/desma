@@ -41,6 +41,7 @@ const ColorCollection = ({
     showColorPicker(event);
     addColor(paletteName, colorId, hexCode);
   };
+
   return (
     <Card shadow={false} css={{ width: 'auto' }}>
       <Text h3>{name}</Text>

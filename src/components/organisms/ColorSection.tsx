@@ -13,8 +13,7 @@ const ColorSection = () => {
   const [newColor, setNewColor] = useState({ id: '-1', hexCode: '#000000' });
   const { designData, setDesignState } = useDesignContext();
 
-  const { palette: colors } = designData;
-  const { ...palette } = colors;
+  const { palette } = designData;
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {

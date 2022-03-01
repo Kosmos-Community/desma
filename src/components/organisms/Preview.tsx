@@ -1,15 +1,31 @@
 import { Container, Card, Spacer, Text, Button } from '@nextui-org/react';
+import useDesignContext from '../../context/DesignContext';
+import { SCALES } from '../../utils/scaleFactor';
 
 const Preview = () => {
+  const { designData } = useDesignContext();
+
   return (
     <Container>
       <Spacer y={2} />
-      <Card color="primary" css={{ padding: '1rem 0 2rem 0' }}>
+      <Card
+        css={{
+          backgroundColor: designData.palette.backgroundColors[0]
+            ? designData.palette.backgroundColors[0].hexCode
+            : '$primary',
+          padding: '1rem 0 2rem 0',
+        }}
+      >
         <Container as="nav" css={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              style={{ width: 24 }}
+              style={{
+                width: 24,
+                color: designData.palette.textColor[0]
+                  ? designData.palette.textColor[0].hexCode
+                  : 'white',
+              }}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -19,8 +35,17 @@ const Preview = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <Text h1 size={24} color="white">
-              Palette
+            <Text
+              h1
+              size={24}
+              color="white"
+              css={{
+                color: designData.palette.textColor[0]
+                  ? designData.palette.textColor[0].hexCode
+                  : 'white',
+              }}
+            >
+              {designData.name ? designData.name : 'Palette'}
             </Text>
           </div>
         </Container>
@@ -32,21 +57,60 @@ const Preview = () => {
             alignItems: 'center',
           }}
         >
+          <Container
+            css={{
+              width: '30px',
+              height: '20px',
+              margin: '1rem',
+              borderRadius: '40px',
+              backgroundColor: designData.palette.extraColors[0]
+                ? designData.palette.extraColors[0].hexCode
+                : '#ffd230',
+            }}
+          ></Container>
           <Text
             h2
             size={36}
             color="white"
-            css={{ textAlign: 'center', marginBottom: '.5rem' }}
+            css={{
+              fontSize: `${
+                designData.font.baseSize * SCALES[designData.font.scaleFactor] * 1.6
+              }px`,
+              fontFamily: designData.font.headingFontName,
+              textAlign: 'center',
+              marginBottom: '.5rem',
+              color: designData.palette.textColor[0]
+                ? designData.palette.textColor[0].hexCode
+                : 'white',
+            }}
           >
             An Amazing Heading Title
           </Text>
-          <Text h5 color="white" css={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <Text
+            h5
+            color="white"
+            css={{
+              fontSize: `${designData.font.baseSize}px`,
+              fontFamily: designData.font.parragraphFontName,
+              textAlign: 'center',
+              marginBottom: '2rem',
+              color: designData.palette.textColor[0]
+                ? designData.palette.textColor[0].hexCode
+                : 'white',
+            }}
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. In, perferendis
             ratione explicabo.
           </Text>
-          <Button auto css={{ backgroundColor: 'rgba(0,0,0,.2)' }}>
-            Call to Action
-          </Button>
+          <Button
+            auto
+            css={{
+              width: '150px',
+              backgroundColor: designData.palette.primaryColor[0]
+                ? designData.palette.primaryColor[0].hexCode
+                : 'white',
+            }}
+          ></Button>
         </Container>
         <Container
           css={{
@@ -57,7 +121,16 @@ const Preview = () => {
           }}
         >
           {[0, 1, 2, 4, 5].map((val) => (
-            <Card key={val} css={{ width: '300px', height: '150px' }}></Card>
+            <Card
+              key={val}
+              css={{
+                width: '300px',
+                height: '150px',
+                backgroundColor: designData.palette.backgroundColors[1]
+                  ? designData.palette.backgroundColors[1].hexCode
+                  : 'white',
+              }}
+            ></Card>
           ))}
         </Container>
       </Card>

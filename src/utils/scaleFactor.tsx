@@ -1,7 +1,7 @@
 import { Progress, Text } from '@nextui-org/react';
 import { EScaleFactor } from '../context/DesignContext';
 
-const SCALES = {
+export const SCALES = {
   [EScaleFactor.GOLDEN_RATIO]: 1.618,
   [EScaleFactor.MAJOR_SECOND]: 1.125,
   [EScaleFactor.MAJOR_THIRD]: 1.25,
@@ -63,9 +63,7 @@ const scaleFontRatio = (scales, baseSize: number, text) => {
       name: `${i}`,
       scale: `${scales[i]}rem`,
       pixels: `${pixels}px`,
-      example: (
-        <Text css={{ fontSize: `${pixels}px`, lineHeight: '3rem' }}>{text}</Text>
-      ),
+      example: <Text css={{ fontSize: `${pixels}px`, lineHeight: '3rem' }}>{text}</Text>,
     });
   }
 
