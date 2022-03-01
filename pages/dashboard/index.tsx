@@ -9,7 +9,7 @@ import { serverSidePropsDesigns } from '../../lib/authServerSide';
 import useUserContext from '../../src/context/UserContext';
 
 const Home = ({ user, designs }) => {
-  const { setUserData } = useUserContext();
+  const { userData, setUserData } = useUserContext();
 
   const { message, data } = designs || { message: undefined, data: [] };
 
@@ -66,7 +66,7 @@ const Home = ({ user, designs }) => {
             <Spacer />
             <Container
               css={{
-                width: 'auto',
+                width: '100%',
                 display: 'grid',
                 gridTemplateColumns: 'repeat( auto-fit, minmax(280px, 1fr) )',
                 justifyContent: 'center',
@@ -76,7 +76,12 @@ const Home = ({ user, designs }) => {
               }}
             >
               {data.map((project, index) => (
-                <ProjectCard key={index} name={project.name} projectID={project._id} />
+                <ProjectCard
+                  key={index}
+                  name={project.name}
+                  projectID={project._id}
+                  seed={userData.email}
+                />
               ))}
             </Container>
           </>

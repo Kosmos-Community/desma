@@ -4,11 +4,12 @@ import React from 'react';
 interface IProjectCard {
   name: string;
   projectID: string;
+  seed: string;
 }
 
-const ProjectCard = ({ name, projectID }: IProjectCard) => {
+const ProjectCard = ({ name, projectID, seed }: IProjectCard) => {
   return (
-    <Link href={`designer/${projectID}`}>
+    <Link href={`designer/${projectID}`} css={{ maxWidth: '200px' }}>
       <Card
         clickable
         css={{
@@ -34,7 +35,7 @@ const ProjectCard = ({ name, projectID }: IProjectCard) => {
           align="center"
         >
           <img
-            src={`https://avatars.dicebear.com/api/jdenticon/${name}${projectID}.svg`}
+            src={`https://avatars.dicebear.com/api/jdenticon/${projectID}${seed}.svg`}
             style={{ objectFit: 'cover' }}
           />
         </Row>
