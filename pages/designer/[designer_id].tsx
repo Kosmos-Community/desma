@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { Button, Input, Loading, Row, Spacer, Text } from '@nextui-org/react';
+import { Button, Input, Loading, Modal, Row, Spacer, Text } from '@nextui-org/react';
 import { Tab } from '../../src/components/atoms/Tab';
 import { TabList } from '../../src/components/atoms/TabList';
 import { TabPanel } from '../../src/components/atoms/TabPanel';
@@ -27,11 +27,14 @@ import {
   SPACING_URL,
 } from '../../src/utils/constants';
 import { useRouter } from 'next/router';
+import { HiTrash } from 'react-icons/hi';
 
 const Home = ({ user, palette, fonts, spacing, info, originalPalette }) => {
   const router = useRouter();
   const [tabState, setTabState] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [state, dispatch] = useReducer(setDesignState, designData);
   const { setUserData } = useUserContext();
 
@@ -161,9 +164,62 @@ const Home = ({ user, palette, fonts, spacing, info, originalPalette }) => {
     }
   };
 
+  const handleDeleteDesign = async () => {
+    setDeleteLoading(true);
+    try {
+      const designRes = await fetch(`${DESIGN_URL}/${info.data._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (designRes.ok) {
+        router.push('/dashboard');
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   return (
     <DesignProvider value={{ setDesignState: dispatch, designData: state }}>
       <AppLayout>
+        <Modal
+          closeButton
+          aria-labelledby="modal-title"
+          open={modalVisible}
+          onClose={() => setModalVisible(false)}
+        >
+          <Modal.Header>
+            <Text h3 id="modal-title" size={18}>
+              Delete Design System
+            </Text>
+          </Modal.Header>
+          <Modal.Body>
+            <Row justify="center">
+              {deleteLoading ? (
+                <Loading color="error" size="sm" />
+              ) : (
+                <>
+                  <Button css={{ minWidth: '150px', backgroundColor: '$accents4' }}>
+                    Cancel
+                  </Button>
+                  <Spacer />
+                  <Button
+                    color="error"
+                    css={{ minWidth: '150px' }}
+                    onClick={handleDeleteDesign}
+                  >
+                    Delete Design
+                  </Button>
+                </>
+              )}
+            </Row>
+          </Modal.Body>
+        </Modal>
         <Row align="center" justify="space-between">
           <Input
             size="xl"
@@ -175,9 +231,24 @@ const Home = ({ user, palette, fonts, spacing, info, originalPalette }) => {
               dispatch({ type: EDesignAction.SET_NAME, payload: e.target.value })
             }
           />
-          <Button onClick={handleDesignSave} disabled={loading}>
-            {loading ? <Loading color="white" size="sm" /> : 'Update Design'}
-          </Button>
+          <Row css={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+            <Button
+              onClick={handleDesignSave}
+              disabled={loading}
+              css={{ minWidth: 'fit-content' }}
+            >
+              {loading ? <Loading color="white" size="sm" /> : 'Update Design'}
+            </Button>
+            <Spacer />
+            <Button
+              color="error"
+              onClick={() => setModalVisible(true)}
+              disabled={loading}
+              css={{ minWidth: 'fit-content' }}
+            >
+              <HiTrash />
+            </Button>
+          </Row>
         </Row>
         <Spacer y={1} />
         <Tabs value={{ tabState, setTabState }}>
