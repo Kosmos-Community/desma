@@ -48,8 +48,11 @@ const ColorSection = () => {
     const newPalette = { ...palette };
     let section = newPalette[sectionId];
     if (!section) return;
-    newPalette[sectionId] = section.filter((color) => color._id !== newColor._id);
+    newPalette[sectionId] = section.filter((color) => {
+      return color._id !== newColor._id;
+    });
     setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
+    setPickerState(false);
   };
 
   const saveColorValue = (paletteId = sectionId, colorId = newColor._id) => {
