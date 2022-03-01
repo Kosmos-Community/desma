@@ -21,6 +21,11 @@ const FontSection = () => {
   const { headingFontName, parragraphFontName } = designData.font;
 
   useEffect(() => {
+    setHeading(headingFontName);
+    setParagraph(parragraphFontName);
+  }, []);
+
+  useEffect(() => {
     const newHeading = headingFontName.replace(/\s/g, '+');
     const newParagraph = parragraphFontName.replace(/\s/g, '+');
     const headingLink = `${GOOGLE_FONTS_URL}${newHeading}${WEIGHT_QUERY}`;

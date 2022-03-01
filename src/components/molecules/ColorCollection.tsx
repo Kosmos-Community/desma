@@ -48,11 +48,11 @@ const ColorCollection = ({
       <Grid.Container gap={2} css={{ marginTop: '$1', p: 0 }}>
         {colors.map((colorItem, index) => (
           <Grid key={index} onClick={handleColorSelected}>
-            {colorItem.id !== newColor.id ? (
+            {colorItem._id !== newColor._id ? (
               <div
-                id={colorItem.id}
+                id={colorItem._id}
                 onClick={(e: any) =>
-                  handleUpdateColor(e, colorItem.id, colorItem.hexCode)
+                  handleUpdateColor(e, colorItem._id, colorItem.hexCode)
                 }
               >
                 <ColorCard

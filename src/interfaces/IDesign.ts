@@ -3,7 +3,7 @@ import { EDesignAction, EScaleFactor } from '../context/DesignContext';
 import { FONT, PALLETTE } from '../__mocks__/designMocks';
 
 export interface IColor {
-  id?: string;
+  _id?: string;
   hexCode?: string;
   rgbCode?: string;
 }
@@ -14,6 +14,7 @@ export interface IPallette {
   textColor: IColor[];
   backgroundColors: IColor[];
   extraColors: IColor[];
+  _id?: string;
 }
 
 export interface IFonts {
@@ -31,6 +32,7 @@ export interface ISpacing {
 }
 
 export interface IDesign {
+  _id: any;
   name: string;
   palette: IPallette;
   font: IFonts;

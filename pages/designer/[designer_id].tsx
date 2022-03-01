@@ -63,40 +63,39 @@ const Home = ({ user, palette, fonts, spacing, info }) => {
   }, [user, setUserData]);
 
   const handleDesignSave = async () => {
+    console.log(info);
+
     setLoading(true);
     try {
-      const paletteRes = await fetch(PALETTE_URL, {
-        method: 'POST',
+      const paletteRes = await fetch(`${PALETTE_URL}/${info.data.paletteId}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(state.palette),
       });
-      const paletteData = await paletteRes.json();
 
-      const fontRes = await fetch(FONT_URL, {
-        method: 'POST',
+      const fontRes = await fetch(`${FONT_URL}/${info.data.fontsId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(state.font),
       });
-      const fontData = await fontRes.json();
 
-      const spacingRes = await fetch(SPACING_URL, {
-        method: 'POST',
+      const spacingRes = await fetch(`${SPACING_URL}/${info.data.spacingsId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(state.spacing),
       });
-      const spacingData = await spacingRes.json();
 
-      const designRes = await fetch(DESIGN_URL, {
-        method: 'POST',
+      const designRes = await fetch(`${DESIGN_URL}/${info.data._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
@@ -104,16 +103,9 @@ const Home = ({ user, palette, fonts, spacing, info }) => {
         body: JSON.stringify({
           userId: user.id,
           name: state.name,
-          paletteId: paletteData._id,
-          fontsId: fontData.data._id,
-          spacingsId: spacingData.data._id,
           isPublic: true,
         }),
       });
-
-      if (designRes.ok) {
-        router.push('/dashboard');
-      }
     } catch (e) {
       console.log(e);
     } finally {
@@ -136,7 +128,7 @@ const Home = ({ user, palette, fonts, spacing, info }) => {
             }
           />
           <Button onClick={handleDesignSave} disabled={loading}>
-            {loading ? <Loading color="white" size="sm" /> : 'Save design'}
+            {loading ? <Loading color="white" size="sm" /> : 'Update Design'}
           </Button>
         </Row>
         <Spacer y={1} />

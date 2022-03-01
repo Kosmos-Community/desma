@@ -10,10 +10,11 @@ const ColorSection = () => {
   const [pickerState, setPickerState] = useState<boolean>(false);
   const [sectionId, setSectionId] = useState<string>('');
   const [color, setColor] = useState<string>('#000000');
-  const [newColor, setNewColor] = useState({ id: '-1', hexCode: '#000000' });
+  const [newColor, setNewColor] = useState({ _id: '-1', hexCode: '#000000' });
   const { designData, setDesignState } = useDesignContext();
 
   const { palette } = designData;
+  const { _id, ...paletteWithoutId } = palette;
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {
@@ -21,8 +22,8 @@ const ColorSection = () => {
     const section: IColor[] = palette[sectionId];
     if (!section) return;
     if (section.length >= 5) return;
-    const colorsId = section.map((color) => color.id);
-    if (colorsId.includes(newColor.id)) return;
+    const colorsId = section.map((color) => color._id);
+    if (colorsId.includes(newColor._id)) return;
     section.push(newColor);
 
     setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
@@ -37,26 +38,26 @@ const ColorSection = () => {
 
   // Updates IColor selected in an ICollection
   const updateColor = (sectionId, colorId = `${Math.random()}`, hexCode = color) => {
-    if (newColor && newColor.id !== '-1') saveColorValue();
+    if (newColor && newColor._id !== '-1') saveColorValue();
     setSectionId(sectionId);
     setColor(hexCode);
-    setNewColor({ id: colorId, hexCode: color });
+    setNewColor({ _id: colorId, hexCode: color });
   };
 
   const deleteColor = () => {
     const newPalette = { ...palette };
     let section = newPalette[sectionId];
     if (!section) return;
-    newPalette[sectionId] = section.filter((color) => color.id !== newColor.id);
+    newPalette[sectionId] = section.filter((color) => color._id !== newColor._id);
     setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
   };
 
-  const saveColorValue = (paletteId = sectionId, colorId = newColor.id) => {
+  const saveColorValue = (paletteId = sectionId, colorId = newColor._id) => {
     const newPalette = { ...palette };
 
     const section = newPalette[paletteId];
     if (!section) return;
-    const colorSelected = section.find((item) => item.id === colorId);
+    const colorSelected = section.find((item) => item._id === colorId);
     if (!colorSelected) return;
     colorSelected.hexCode = color;
   };
@@ -82,11 +83,11 @@ const ColorSection = () => {
         }}
       >
         <Container css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
-          {Object.keys(palette).map((paletteName, index) => (
+          {Object.keys(paletteWithoutId).map((paletteName, index) => (
             <ColorCollection
               key={index}
               paletteName={paletteName}
-              colors={palette[paletteName]}
+              colors={paletteWithoutId[paletteName]}
               color={color}
               newColor={newColor}
               showColorPicker={showColorPicker}
