@@ -68,9 +68,14 @@ export const serverSidePropsDesigner = async ({ params, req }: any): Promise<any
 
   const resDesignerData = await resDesigner.json();
 
-  getColors(user.token, resDesignerData.data.paletteId);
+  data.props['info'] = resDesignerData;
 
-  data.props['designSystem'] = resDesignerData;
+  data.props['palette'] = await getColors(user.token, resDesignerData.data.paletteId);
+  data.props['fonts'] = await getFonts(user.token, resDesignerData.data.fontsId);
+  data.props['spacing'] = await getSpacing(user.token, resDesignerData.data.spacingsId);
+  delete data.props.palette._id;
+  delete data.props.fonts._id;
+  delete data.props.spacing._id;
 
   return data;
 };
@@ -82,12 +87,28 @@ const getColors = async (userToken: string, id: string) => {
     },
   });
   const resColorsData = await resColors.json();
-  console.log(resColorsData);
+  return resColorsData;
 };
 
-const getFonts = async (userToken: string, id: string) => {};
+const getFonts = async (userToken: string, id: string) => {
+  const resFonts = await fetch(`${FONT_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  const resFontsData = await resFonts.json();
+  return resFontsData;
+};
 
-const getSpacing = async (userToken: string, id: string) => {};
+const getSpacing = async (userToken: string, id: string) => {
+  const resSpacing = await fetch(`${SPACING_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  const resSpacingData = await resSpacing.json();
+  return resSpacingData;
+};
 
 export const serverSidePropsProtected = async ({ req }: any): Promise<any> => {
   const user = req.session.user || null;

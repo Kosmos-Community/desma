@@ -28,12 +28,34 @@ import {
 } from '../../src/utils/constants';
 import { useRouter } from 'next/router';
 
-const Home = ({ user, designSystem }) => {
+const Home = ({ user, palette, fonts, spacing, info }) => {
   const router = useRouter();
   const [tabState, setTabState] = useState(0);
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useReducer(setDesignState, designData);
   const { setUserData } = useUserContext();
+
+  useEffect(() => {
+    dispatch({
+      type: EDesignAction.SET_NAME,
+      payload: info.data.name,
+    });
+
+    dispatch({
+      type: EDesignAction.SET_PALETTE,
+      payload: palette,
+    });
+
+    dispatch({
+      type: EDesignAction.SET_FONTS,
+      payload: fonts.data,
+    });
+
+    dispatch({
+      type: EDesignAction.SET_SPACING,
+      payload: spacing.data,
+    });
+  }, []);
 
   useEffect(() => {
     if (!user) return;
