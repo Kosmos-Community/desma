@@ -35,6 +35,11 @@ const RegisterScreen = () => {
       return;
     }
 
+    if (!validator.isStrongPassword(registerForm.password)) {
+      setErrorMsg('Seems like your password is not safe. A safe password must have:- at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 symbol (.,*-%)');
+      return;
+    }
+
     if (registerForm.password != registerForm.confirmPassword) {
       setErrorMsg("Passwords doesn't match");
       return;
