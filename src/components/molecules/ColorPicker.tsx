@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Input, Spacer } from '@nextui-org/react';
 import { HexColorPicker } from 'react-colorful';
 
+import validator from 'validator';
+
 const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColor }) => {
+  const [errorMsg, setErrorMsg] = useState(false);
+
   const handleColorPicker = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length < 1) return;
+    if (!validator.isHexadecimal(e.target.value.substring(1)) && e.target.value.substring(1).length > 0) {
+      setErrorMsg(true);
+      return;
+    }
     setColor(`${e.target.value}`);
+    setErrorMsg(false);
   };
 
   return (
@@ -24,6 +33,8 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
         <HexColorPicker color={color} onChange={setColor} />
       </Card.Body>
       <Card.Footer css={{ display: 'flex', flexDirection: 'column' }}>
+        <>
+        {errorMsg && <div style={{ color: 'red' }}>Invalid hex value. Only 0-9/a-f</div>}
         <Input
           value={color}
           bordered
@@ -32,6 +43,8 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
           maxLength={7}
           onChange={handleColorPicker}
         />
+        </>
+        
         <Spacer y={2} />
         <Button onClick={addSectionColor}>Save Color</Button>
 
