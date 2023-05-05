@@ -30,7 +30,7 @@ const ColorSection = () => {
   }, [newColor]);
 
   const hideColorPicker = () => {
-    if(validator.isHexColor(color))return;
+    if(!validator.isHexColor(color))return;
     saveColorValue();
     setPickerState(false);
   };
