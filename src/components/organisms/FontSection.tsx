@@ -12,6 +12,8 @@ import Table from '../molecules/Table';
 import { handleFontRatio } from '../../utils/scaleFactor';
 import FontContainer from '../atoms/FontContainer';
 
+import axios from 'axios';
+
 const FontSection = () => {
   const { designData, setDesignState } = useDesignContext();
   const [heading, setHeading] = useState('');
@@ -19,6 +21,8 @@ const FontSection = () => {
   const [baseSize, setBaseSize] = useState(designData.font.baseSize);
   const [scaleFactor, setScaleFactor] = useState(designData.font.scaleFactor);
   const { headingFontName, parragraphFontName } = designData.font;
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     setHeading(headingFontName);
@@ -30,28 +34,57 @@ const FontSection = () => {
     const newParagraph = parragraphFontName.replace(/\s/g, '+');
     const headingLink = `${GOOGLE_FONTS_URL}${newHeading}${WEIGHT_QUERY}`;
     const paragraphLink = `${GOOGLE_FONTS_URL}${newParagraph}${WEIGHT_QUERY}`;
-    const link1 = document.createElement('link');
-    const link2 = document.createElement('link');
 
-    const links = document.getElementsByTagName('link');
+    const fetchFont = async (url, type) => {
+      let response;
+      try {
+        response = await axios.get(url);
+        return response.status === 200;
+      } catch (error) {
+        if (type === 1) setErrorMsg(`Font ${headingFontName} not found.`);
+        if (type === 2) setErrorMsg(`Font ${parragraphFontName} not found.`);
+        console.error(error);
+        return;
+      }
+    };
 
-    let headingLinkExists = false;
-    let paragraphLinkExists = false;
-    for (let item of Array.from(links)) {
-      if (item.href === headingLink) headingLinkExists = true;
-    }
-    link1.rel = 'stylesheet';
+    setErrorMsg('');
 
-    if (!headingLinkExists) {
-      link1.href = headingLink;
-      document.head.appendChild(link1);
-    }
+    const loadFont = async (url) => {
+      try {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+        return true;
+      } catch (error) {
+        return;
+      }
+    };
 
-    link2.rel = 'stylesheet';
-    if (!paragraphLinkExists) {
-      link2.href = paragraphLink;
-      document.head.appendChild(link2);
-    }
+    const loadFontsIfNeeded = async () => {
+      const links = document.getElementsByTagName('link');
+      let headingLinkExists = false;
+      let paragraphLinkExists = false;
+      for (let item of Array.from(links)) {
+        if (item.href === headingLink) headingLinkExists = true;
+        if (item.href === paragraphLink) paragraphLinkExists = true;
+      }
+      if (!headingLinkExists) {
+        const loaded = await fetchFont(headingLink, 1);
+        if (loaded) {
+          await loadFont(headingLink);
+        }
+      }
+      if (!paragraphLinkExists) {
+        const loaded = await fetchFont(paragraphLink, 2);
+        if (loaded) {
+          await loadFont(paragraphLink);
+        }
+      }
+    };
+
+    loadFontsIfNeeded();
   }, [headingFontName, parragraphFontName]);
 
   useEffect(() => {
@@ -111,6 +144,25 @@ const FontSection = () => {
             <Button onClick={handleFonts} css={{ minWidth: 'auto' }}>
               Submit fonts
             </Button>
+
+            <Spacer y={2} />
+            <Text
+              small
+              weight="bold"
+              color="white"
+              hidden={errorMsg == ''}
+              css={{
+                width: '100%',
+                padding: '.2rem',
+                backgroundColor: '#EF4444',
+                position: 'fixed',
+                bottom: '0',
+                left: '0',
+                textAlign: 'center',
+              }}
+            >
+              {errorMsg}
+            </Text>
           </Row>
         </Grid>
         <Grid>
