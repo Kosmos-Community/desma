@@ -34,7 +34,7 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
       </Card.Body>
       <Card.Footer css={{ display: 'flex', flexDirection: 'column' }}>
         <>
-        {errorMsg && <div style={{ color: 'red', width: 'min-content' }}>Invalid value, please enter from the valid characters: 1,2,3,4,5,6,7,8,9,0,a,b,c,d,e,f</div>}
+        {errorMsg && <div style={{ color: 'red', width: 'min-content' }}>Only enter valid hex characters</div>}
         <Input
           value={color}
           bordered
