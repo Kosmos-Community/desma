@@ -24,14 +24,18 @@ const FontSection = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  function toTitleCase(str) {
+      return str.toLowerCase().replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
+    }
+
   useEffect(() => {
-    setHeading(headingFontName);
-    setParagraph(parragraphFontName);
+    setHeading(toTitleCase(headingFontName));
+    setParagraph(toTitleCase(parragraphFontName));
   }, []);
 
   useEffect(() => {
-    const newHeading = headingFontName.replace(/\s/g, '+');
-    const newParagraph = parragraphFontName.replace(/\s/g, '+');
+    const newHeading = toTitleCase(headingFontName).replace(/\s/g, '+');
+    const newParagraph = toTitleCase(parragraphFontName).replace(/\s/g, '+');
     const headingLink = `${GOOGLE_FONTS_URL}${newHeading}${WEIGHT_QUERY}`;
     const paragraphLink = `${GOOGLE_FONTS_URL}${newParagraph}${WEIGHT_QUERY}`;
 
