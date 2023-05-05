@@ -16,7 +16,7 @@ const Preview = () => {
           padding: '1rem 0 2rem 0',
         }}
       >
-        <Container as="nav" css={{ marginBottom: '2rem' }}>
+        <Container as="nav" css={{ marginBottom: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor] }rem` }}> 
           <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const Preview = () => {
         </Container>
         <Container
           css={{
-            marginBottom: '2rem',
+            marginBottom: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor]}rem`,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -61,7 +61,7 @@ const Preview = () => {
             css={{
               width: '30px',
               height: '20px',
-              margin: '1rem',
+              margin: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor]}rem`,
               borderRadius: '40px',
               backgroundColor: designData.palette.extraColors[0]
                 ? designData.palette.extraColors[0].hexCode
@@ -78,7 +78,7 @@ const Preview = () => {
               }px`,
               fontFamily: designData.font.headingFontName,
               textAlign: 'center',
-              marginBottom: '.5rem',
+              marginBottom: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor]}rem`,
               color: designData.palette.textColor[0]
                 ? designData.palette.textColor[0].hexCode
                 : 'white',
@@ -93,7 +93,7 @@ const Preview = () => {
               fontSize: `${designData.font.baseSize}px`,
               fontFamily: designData.font.parragraphFontName,
               textAlign: 'center',
-              marginBottom: '2rem',
+              marginBottom: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor]}rem`,
               color: designData.palette.textColor[0]
                 ? designData.palette.textColor[0].hexCode
                 : 'white',
