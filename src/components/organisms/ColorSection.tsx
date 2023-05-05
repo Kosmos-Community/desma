@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@nextui-org/react';
-
+import validator from 'validator';
 import ColorCollection from '../molecules/ColorCollection';
 import ColorPicker from '../molecules/ColorPicker';
 import useDesignContext, { EDesignAction } from '../../context/DesignContext';
@@ -30,6 +30,7 @@ const ColorSection = () => {
   }, [newColor]);
 
   const hideColorPicker = () => {
+    if(validator.isHexColor(color))return;
     saveColorValue();
     setPickerState(false);
   };
