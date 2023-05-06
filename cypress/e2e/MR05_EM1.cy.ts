@@ -20,7 +20,7 @@ describe('verify if the spicing of tthe elements of the preview are updated corr
     cy.contains('Base size').type('5')
   })
 
-  it('Update the spacing and check the preview and check the preview', () => {
+  it('Update the spacing and check if the spacing changed in the preview', () => {
     let valorMargin;
 
     //Login
