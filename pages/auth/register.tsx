@@ -35,6 +35,11 @@ const RegisterScreen = () => {
       return;
     }
 
+    if (!validator.isStrongPassword(registerForm.password)) {
+      setErrorMsg('Seems like your password is not safe. A safe password must have:- at least 8 characters, 1 number, 1 uppercase letter, 1 lowercase letter, 1 symbol (.,*-%)');
+      return;
+    }
+
     if (registerForm.password != registerForm.confirmPassword) {
       setErrorMsg("Passwords doesn't match");
       return;
@@ -140,13 +145,14 @@ const RegisterScreen = () => {
         onChange={onInputChange}
       />
       <Spacer y={2} />
-      <Button onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
+      <Button name="loginButn" onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
         {loading ? <Loading color="white" size="sm" /> : 'Register'}
       </Button>
       <Text small>
         Already have an account? <Link href="/auth/login">Login</Link>
       </Text>
       <Text
+        title="errorMsg"
         small
         weight="bold"
         color="white"
