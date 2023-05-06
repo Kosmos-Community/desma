@@ -1,4 +1,4 @@
-describe('My First Test', () => {
+describe('Test MR04-EM03', () => {
   beforeEach('logs in', () => {
     const mail = 'prueba@email.com'
     const contra = 'a'
