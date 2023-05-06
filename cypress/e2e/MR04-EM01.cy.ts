@@ -5,8 +5,8 @@ describe('Test MR04-EM01', () => {
   });
 
   it('Registers a new account correctly', () => {
-    cy.get('Input[name=name]').type('testMR04-EM01')
-    cy.get('Input[name=email]').type('testMR04@email.com')
+    cy.get('Input[name=name]').type('testForMR04-EM01')
+    cy.get('Input[name=email]').type('testForMR04@email.com')
     cy.get('Input[name=password]').type('4Str0ng.P4ssw0rd!')
     cy.get('Input[name=confirmPassword]').type('4Str0ng.P4ssw0rd!')
     cy.get('button[name=loginButn]').click()
@@ -26,7 +26,7 @@ describe('Test MR04-EM01', () => {
   it('Does not allow password with no uppercase letters', () => {
     cy.get('Input[name=name]').type('testMR04-EM01')
     cy.get('Input[name=email]').type('testMR04@email.com')
-    cy.get('Input[name=password]').type('strong.password!')
+    cy.get('Input[name=password]').type('4strong.password!')
     cy.get('Input[name=confirmPassword]').type('4strong.password!')
     cy.get('button[name=loginButn]').click()
     cy.get('small[title=errorMsg]').should('be.visible')
