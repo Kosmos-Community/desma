@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Input, Spacer } from '@nextui-org/react';
 import { HexColorPicker } from 'react-colorful';
 
+import validator from 'validator';
+
 const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColor }) => {
+  const [errorMsg, setErrorMsg] = useState(false);
+
   const handleColorPicker = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length < 1) return;
+    if (!validator.isHexadecimal(e.target.value.substring(1)) && e.target.value.substring(1).length > 0) {
+      setErrorMsg(true);
+      return;
+    }
     setColor(`${e.target.value}`);
+    setErrorMsg(false);
   };
 
   return (
     <Card
+      title='colorPicker'
       shadow={false}
       bordered
       css={{
@@ -24,7 +34,10 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
         <HexColorPicker color={color} onChange={setColor} />
       </Card.Body>
       <Card.Footer css={{ display: 'flex', flexDirection: 'column' }}>
+        <>
+        {errorMsg && <div title='errorMessage' style={{ color: 'red'}}>Only enter valid hex characters</div>}
         <Input
+          name='colorInput'
           value={color}
           bordered
           label="HEX"
@@ -32,8 +45,10 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
           maxLength={7}
           onChange={handleColorPicker}
         />
+        </>
+        
         <Spacer y={2} />
-        <Button onClick={addSectionColor}>Save Color</Button>
+        <Button name='saveBtn' onClick={addSectionColor}>Save Color</Button>
 
         <Button bordered color="error" css={{ marginTop: '.5rem' }} onClick={deleteColor}>
           Delete Color

@@ -45,9 +45,9 @@ const ColorCollection = ({
   return (
     <Card shadow={false} css={{ width: 'auto' }}>
       <Text h3>{name}</Text>
-      <Grid.Container gap={2} css={{ marginTop: '$1', p: 0 }}>
+      <Grid.Container title={'grid-' + name} gap={2} css={{ marginTop: '$1', p: 0 }}>
         {colors.map((colorItem, index) => (
-          <Grid key={index} onClick={handleColorSelected}>
+          <Grid title={'card'+index} key={index} onClick={handleColorSelected}>
             {colorItem._id !== newColor._id ? (
               <div
                 id={colorItem._id}
@@ -66,7 +66,7 @@ const ColorCollection = ({
           </Grid>
         ))}
         {colors.length < 5 && (
-          <Grid onClick={addNewColor}>
+          <Grid title='addColor' onClick={addNewColor}>
             <ColorCard />
           </Grid>
         )}
