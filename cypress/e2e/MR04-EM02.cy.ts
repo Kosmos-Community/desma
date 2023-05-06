@@ -54,9 +54,7 @@ describe('MR04-EM02 Testing', () => {
   })
 
   it('Does not enter invalid value', () => {
-    /*Selects first PrimaryColor to try and update it's hex value with a string of more than 3 but less 
-    than 6 characters needed for hexColor
-    */
+    /*Selects first PrimaryColor to try and input a non hex value*/
     cy.get('div[title=grid-PrimaryColor] > div[title=card0]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}q')
     cy.get('button[name=saveBtn]').click()
@@ -65,6 +63,7 @@ describe('MR04-EM02 Testing', () => {
   })
 
   it('Adds a valid color', () => {
+    //Tests to add new color with valid hex string
     cy.get('div[title=grid-PrimaryColor] > div[title=addColor]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}abc123')
     cy.get('button[name=saveBtn]').click()
@@ -74,6 +73,7 @@ describe('MR04-EM02 Testing', () => {
   })
 
   it('Does not add a invalid value', () => {
+    //Selects first PrimaryColor to try and input a non hex value
     cy.get('div[title=grid-PrimaryColor] > div[title=addColor]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}q')
     cy.get('div[title=errorMessage]').should('be.visible')
@@ -81,6 +81,7 @@ describe('MR04-EM02 Testing', () => {
   })
   
   it('Does not save invalid color (Empty value)', () => {
+    //Selects to add new PrimaryColor to try and save it's hex value with an empty string
     cy.get('div[title=grid-PrimaryColor] > div[title=addColor]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}')
     cy.get('button[name=saveBtn]').click()
@@ -89,6 +90,7 @@ describe('MR04-EM02 Testing', () => {
   })
 
   it('Does not update invalid color (length < 3)', () => {
+    //Selects to add new PrimaryColor to try and save it's hex value with a string of less than 3 characters needed for hexColor
     cy.get('div[title=grid-PrimaryColor] > div[title=addColor]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}a')
     cy.get('button[name=saveBtn]').click()
@@ -97,6 +99,7 @@ describe('MR04-EM02 Testing', () => {
   })
 
   it('Does not update invalid color (3 < length < 6)', () => {
+    //Selects to add new PrimaryColor to try and save it's hex value with a string of more than 3 but less than 6 characters needed for hexColor
     cy.get('div[title=grid-PrimaryColor] > div[title=addColor]').click()
     cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}a15ef')
     cy.get('button[name=saveBtn]').click()
