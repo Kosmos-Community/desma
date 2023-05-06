@@ -86,7 +86,7 @@ const ColorSection = () => {
           position: 'relative',
         }}
       >
-        <Container css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
+        <Container title='colorCard' css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
           {Object.keys(paletteWithoutId).map((paletteName, index) => (
             <ColorCollection
               key={index}
@@ -99,7 +99,7 @@ const ColorSection = () => {
             />
           ))}
         </Container>
-
+        
         <ColorPicker
           pickerState={pickerState}
           color={color}
@@ -107,6 +107,7 @@ const ColorSection = () => {
           addSectionColor={hideColorPicker}
           deleteColor={deleteColor}
         />
+        
       </Container>
     </>
   );

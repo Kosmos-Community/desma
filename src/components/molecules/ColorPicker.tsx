@@ -19,6 +19,7 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
 
   return (
     <Card
+      title='colorPicker'
       shadow={false}
       bordered
       css={{
@@ -34,8 +35,9 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
       </Card.Body>
       <Card.Footer css={{ display: 'flex', flexDirection: 'column' }}>
         <>
-        {errorMsg && <div style={{ color: 'red', width: 'min-content' }}>Only enter valid hex characters</div>}
+        {errorMsg && <div title='errorMessage' style={{ color: 'red'}}>Only enter valid hex characters</div>}
         <Input
+          name='colorInput'
           value={color}
           bordered
           label="HEX"
@@ -46,7 +48,7 @@ const ColorPicker = ({ pickerState, color, setColor, addSectionColor, deleteColo
         </>
         
         <Spacer y={2} />
-        <Button onClick={addSectionColor}>Save Color</Button>
+        <Button name='saveBtn' onClick={addSectionColor}>Save Color</Button>
 
         <Button bordered color="error" css={{ marginTop: '.5rem' }} onClick={deleteColor}>
           Delete Color
