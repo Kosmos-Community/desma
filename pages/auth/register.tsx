@@ -36,7 +36,7 @@ const RegisterScreen = () => {
     }
 
     if (!validator.isStrongPassword(registerForm.password)) {
-      setErrorMsg('Seems like your password is not safe. A safe password must have:- at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 symbol (.,*-%)');
+      setErrorMsg('Seems like your password is not safe. A safe password must have:- at least 8 characters, 1 number, 1 uppercase letter, 1 lowercase letter, 1 symbol (.,*-%)');
       return;
     }
 
@@ -143,6 +143,7 @@ const RegisterScreen = () => {
         Already have an account? <Link href="/auth/login">Login</Link>
       </Text>
       <Text
+        title="errorMsg"
         small
         weight="bold"
         color="white"
