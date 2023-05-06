@@ -49,7 +49,7 @@ const Preview = () => {
             </Text>
           </div>
         </Container>
-        <Container
+        <Container className='Container'
           css={{
             marginBottom: `${designData.spacing.baseSize * SCALES[designData.spacing.scaleFactor]}rem`,
             display: 'flex',
