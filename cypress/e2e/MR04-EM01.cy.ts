@@ -4,7 +4,7 @@ describe('Test MR04-EM01', () => {
     cy.visit('http://localhost:3000/auth/register')
   });
 
-  it.skip('Registers a new account correctly', () => {
+  it('Registers a new account correctly', () => {
     cy.get('Input[name=name]').type('testMR04-EM01')
     cy.get('Input[name=email]').type('testMR04@email.com')
     cy.get('Input[name=password]').type('4Str0ng.P4ssw0rd!')
