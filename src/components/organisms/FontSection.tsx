@@ -25,8 +25,8 @@ const FontSection = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   function toTitleCase(str) {
-      return str.toLowerCase().replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() });
-    }
+    return str.toLowerCase().replace(/(^|\s)\S/g, function (t) { return t.toUpperCase() });
+  }
 
   useEffect(() => {
     setHeading(toTitleCase(headingFontName));
@@ -128,6 +128,7 @@ const FontSection = () => {
         <Grid>
           <Row align="flex-end">
             <Input
+              name='headingInput'
               label="Heading Font"
               placeholder="Open Sans"
               bordered
@@ -137,6 +138,7 @@ const FontSection = () => {
             />
             <Spacer />
             <Input
+              name='paragraphInput'
               label="Paragraph Font"
               placeholder="Open Sans"
               bordered
@@ -145,12 +147,13 @@ const FontSection = () => {
               helperText="Input a font from google fonts"
             />
             <Spacer />
-            <Button onClick={handleFonts} css={{ minWidth: 'auto' }}>
+            <Button name="submitBtn" onClick={handleFonts} css={{ minWidth: 'auto' }}>
               Submit fonts
             </Button>
 
             <Spacer y={2} />
             <Text
+              title='errorMsg'
               small
               weight="bold"
               color="white"
@@ -173,17 +176,17 @@ const FontSection = () => {
           <Spacer y={2} />
           <Text>Headings</Text>
           <FontContainer headingFontName={headingFontName} fontWeight="700">
-            <Text>AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz</Text>
+            <Text title="headingText">AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz</Text>
             <Spacer />
-            <Text>1234567890!@£$%^&*()</Text>
+            <Text title="headingNText">1234567890!@£$%^&*()</Text>
           </FontContainer>
         </Grid>
         <Grid>
           <Text>Paragraphs</Text>
           <FontContainer headingFontName={parragraphFontName} fontWeight="400">
-            <Text>AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz</Text>
+            <Text title="paragraphText">AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz</Text>
             <Spacer />
-            <Text>1234567890!@£$%^&*()</Text>
+            <Text title="paragraphNText">1234567890!@£$%^&*()</Text>
           </FontContainer>
         </Grid>
       </Grid.Container>
