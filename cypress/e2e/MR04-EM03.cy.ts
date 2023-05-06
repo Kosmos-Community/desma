@@ -13,7 +13,7 @@ describe('Test MR04-EM03', () => {
     cy.contains('Font').click()
   })
 
-  it('Finds paragraph font (capitalized)', () =>{
+  it('Finds a heading and paragraph font (capitalized)', () =>{
     //test that it can find a font Comfortaa (a font in the repository) when capitalized
     cy.get('input[name=headingInput]').clear().type('Comfortaa')
     cy.get('input[name=paragraphInput]').clear().type('Comfortaa')
@@ -40,11 +40,11 @@ describe('Test MR04-EM03', () => {
   })
 
   it("Alerts when heading isn't found", () =>{
-    //test that it can find a font comfortaa (a font in the repository) but can't find comic sans (not in the repository)
+    //test that it can find paragraph font comfortaa (a font in the repository) but can't find heading font comic sans (not in the repository)
     cy.get('input[name=headingInput]').clear().type('comic sans')
     cy.get('input[name=paragraphInput]').clear().type('comfortaa')
     cy.get('button[name=submitBtn]').click()
-    //heading text example has the updated font
+    //shows error message with the font not found
     cy.get('small[title=errorMsg]').should('be.visible').and('contain', 'Font comic sans not found')
     //paragraph text example has the updated font
     cy.get('p[title=paragraphText]').should('have.css', 'font-family', 'comfortaa')
@@ -52,11 +52,11 @@ describe('Test MR04-EM03', () => {
   })
 
   it("Alerts when paragraph isn't found", () =>{
-    //test that it can find a font comfortaa (a font in the repository) but can't find comic sans (not in the repository)
+    //test that it can find heading font comfortaa (a font in the repository) but can't find paragraph font comic sans (not in the repository)
     cy.get('input[name=headingInput]').clear().type('comfortaa')
     cy.get('input[name=paragraphInput]').clear().type('comic sans')
     cy.get('button[name=submitBtn]').click()
-    //heading text example has the updated font
+    //shows error message with the font not found
     cy.get('small[title=errorMsg]').should('be.visible').and('contain', 'Font comic sans not found')
     //paragraph text example has the updated font
     cy.get('p[title=headingText]').should('have.css', 'font-family', 'comfortaa')
