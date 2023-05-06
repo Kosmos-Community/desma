@@ -99,7 +99,16 @@ const RegisterScreen = () => {
           textGradient: '45deg, $blue500 -20%, $pink500 50%',
         }}
       >
-        <Link href="/">Desma</Link>
+        <Link
+          href="/"
+          css={{
+            '&:hover': {
+              opacity: 1,
+            },
+          }}
+        >
+          Desma
+        </Link>
       </Text>
 
       <Spacer y={2} />
