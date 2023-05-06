@@ -136,7 +136,7 @@ const RegisterScreen = () => {
         onChange={onInputChange}
       />
       <Spacer y={2} />
-      <Button onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
+      <Button name="loginButn" onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
         {loading ? <Loading color="white" size="sm" /> : 'Register'}
       </Button>
       <Text small>
