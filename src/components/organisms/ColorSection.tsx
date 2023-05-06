@@ -86,7 +86,7 @@ const ColorSection = () => {
           position: 'relative',
         }}
       >
-        <Container title='colorCard' css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
+        <Container css={{ m: 0, p: 0, width: '100%', display: 'flex' }}>
           {Object.keys(paletteWithoutId).map((paletteName, index) => (
             <ColorCollection
               key={index}
