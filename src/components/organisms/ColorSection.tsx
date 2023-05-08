@@ -78,7 +78,7 @@ const ColorSection = () => {
       && !ccc.isLevelAA(paletteWithoutId['backgroundColors'][0].hexCode, colorSelected.hexCode, 16)) {
         setErrorMsg((prevErrorMessages) => ({
           ...prevErrorMessages,
-          [paletteId]: `The color ${color} in ${paletteId} doesn't pass contrast test. To know more, visit the official WCAG website.`,
+          [paletteId]: `The color ${color} in ${paletteId} doesn't pass AA contrast test. To know more, visit the official WCAG website.`,
         }));
       } else {
         setErrorMsg((prevErrorMessages) => ({
