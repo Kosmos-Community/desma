@@ -28,7 +28,7 @@ describe('MR06-EM01 Testing', () => {
         cy.get('button[name=saveBtn]').click()
       })
 
-      it('Adds to a color does not pass the contrast test', () => {
+      it('Shows alert when it adds a color that does not pass the contrast test', () => {
         //Adds #7F1F1F to TextColor to contrast agains bgColor #000000
         cy.get('div[title=grid-TextColor] > div[title=addColor]').click()
         cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}7F1F1F')
@@ -37,7 +37,7 @@ describe('MR06-EM01 Testing', () => {
       })
 
       it('Updates to a color that passes the contrast test', () => {
-        //Adds #ffffff to TextColor and then changes it to #e49999 to contrast agains bgColor #000000
+        //Updates #ffffff to TextColor and then changes it to #e49999 to contrast agains bgColor #000000
         cy.get('div[title=grid-TextColor] > div[title=addColor]').click()
         cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ffffff')
         cy.get('button[name=saveBtn]').click()
@@ -47,7 +47,7 @@ describe('MR06-EM01 Testing', () => {
       })
 
       it('Updates to a color that barely passes the contrast test', () => {
-        //Adds #ffffff to TextColor and then changes it to #C85F5F to contrast agains bgColor #000000
+        //Updates #ffffff to TextColor and then changes it to #C85F5F to contrast agains bgColor #000000
         cy.get('div[title=grid-TextColor] > div[title=addColor]').click()
         cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ffffff')
         cy.get('button[name=saveBtn]').click()
@@ -56,8 +56,8 @@ describe('MR06-EM01 Testing', () => {
         cy.get('button[name=saveBtn]').click()
       })
 
-      it('Updates to a color does not pass the contrast test', () => {
-        //Adds #ffffff to TextColor and then changes it #7F1F1F to TextColor to contrast agains bgColor #000000
+      it('Shows alert when it updates to a color does not pass the contrast test', () => {
+        //Updates #ffffff to TextColor and then changes it #7F1F1F to TextColor to contrast agains bgColor #000000
         cy.get('div[title=grid-TextColor] > div[title=addColor]').click()
         cy.get('input[name=colorInput]').type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ffffff')
         cy.get('button[name=saveBtn]').click()
