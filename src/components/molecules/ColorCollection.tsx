@@ -76,24 +76,25 @@ const ColorCollection = ({
           </Grid>
         )}
       </Grid.Container>
-      <Text
-        title="errorMsg"
-        small
-        weight="bold"
-        color="white"
-        hidden={errorMessage == ''}
-        css={{
-          width: '100%',
-          padding: '.2rem',
-          backgroundColor: '#EF4444',
-          position: 'absolute',
-          bottom: '0',
-          left: '0',
-          textAlign: 'center',
-        }}
-      >
-        {errorMessage}
-      </Text>
+      {errorMessage && (
+        <Text
+          title="errorMsg"
+          small
+          weight="bold"
+          color="white"
+          css={{
+            width: '100%',
+            padding: '.2rem',
+            backgroundColor: '#EF4444',
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            textAlign: 'center',
+          }}
+        >
+          {errorMessage}
+        </Text>
+      )}
     </Card>
 
   );

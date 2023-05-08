@@ -19,7 +19,7 @@ const ColorSection = () => {
   const { _id, ...paletteWithoutId } = palette;
 
   const ccc = new ColorContrastChecker();
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState<{ [key: string]: string }>({});
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {
@@ -61,6 +61,10 @@ const ColorSection = () => {
     });
     setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
     setPickerState(false);
+    setErrorMsg((prevErrorMessages) => ({
+      ...prevErrorMessages,
+      [sectionId]: '',
+    }));
   };
 
   const saveColorValue = (paletteId = sectionId, colorId = newColor._id) => {
@@ -72,8 +76,16 @@ const ColorSection = () => {
     colorSelected.hexCode = color;
     if (paletteId !== 'backgroundColors'
       && !ccc.isLevelAA(paletteWithoutId['backgroundColors'][0].hexCode, colorSelected.hexCode, 16)) {
-        setErrorMsg("The color "+ color +" in "+ sectionId+ " doesn't pass contrast test. To know more visit the official WCAG website")
-    }
+        setErrorMsg((prevErrorMessages) => ({
+          ...prevErrorMessages,
+          [paletteId]: `The color ${color} in ${paletteId} doesn't pass contrast test. To know more, visit the official WCAG website.`,
+        }));
+      } else {
+        setErrorMsg((prevErrorMessages) => ({
+          ...prevErrorMessages,
+          [paletteId]: '',
+        }));
+      }
 
   };
 
@@ -107,7 +119,7 @@ const ColorSection = () => {
               newColor={newColor}
               showColorPicker={showColorPicker}
               addColor={updateColor}
-              errorMessage={errorMsg}
+              errorMessage={errorMsg[paletteName] || ''}
             />
           ))
           }
