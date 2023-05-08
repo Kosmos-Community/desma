@@ -6,6 +6,8 @@ import ColorPicker from '../molecules/ColorPicker';
 import useDesignContext, { EDesignAction } from '../../context/DesignContext';
 import { IColor } from '../../interfaces/IDesign';
 
+import * as ColorContrastChecker from 'color-contrast-checker';
+
 const ColorSection = () => {
   const [pickerState, setPickerState] = useState<boolean>(false);
   const [sectionId, setSectionId] = useState<string>('');
@@ -15,6 +17,9 @@ const ColorSection = () => {
 
   const { palette } = designData;
   const { _id, ...paletteWithoutId } = palette;
+
+  const ccc = new ColorContrastChecker();
+  const [errorMsg, setErrorMsg] = useState('');
 
   // Adds a new color to a ICollection colors array when setting a new IColor
   useEffect(() => {
@@ -27,10 +32,12 @@ const ColorSection = () => {
     section.push(newColor);
 
     setDesignState({ payload: newPalette, type: EDesignAction.SET_PALETTE });
+    //newPalette has every color from every section
+
   }, [newColor]);
 
   const hideColorPicker = () => {
-    if(!validator.isHexColor(color))return;
+    if (!validator.isHexColor(color)) return;
     saveColorValue();
     setPickerState(false);
   };
@@ -58,12 +65,16 @@ const ColorSection = () => {
 
   const saveColorValue = (paletteId = sectionId, colorId = newColor._id) => {
     const newPalette = { ...palette };
-
     const section = newPalette[paletteId];
     if (!section) return;
     const colorSelected = section.find((item) => item._id === colorId);
     if (!colorSelected) return;
     colorSelected.hexCode = color;
+    if (paletteId !== 'backgroundColors'
+      && !ccc.isLevelAA(paletteWithoutId['backgroundColors'][0].hexCode, colorSelected.hexCode, 16)) {
+        setErrorMsg("The color "+ color +" in "+ sectionId+ " doesn't pass contrast test. To know more visit the official WCAG website")
+    }
+
   };
 
   return (
@@ -96,10 +107,12 @@ const ColorSection = () => {
               newColor={newColor}
               showColorPicker={showColorPicker}
               addColor={updateColor}
+              errorMessage={errorMsg}
             />
-          ))}
+          ))
+          }
         </Container>
-        
+
         <ColorPicker
           pickerState={pickerState}
           color={color}
@@ -107,7 +120,6 @@ const ColorSection = () => {
           addSectionColor={hideColorPicker}
           deleteColor={deleteColor}
         />
-        
       </Container>
     </>
   );

@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Grid, Text } from '@nextui-org/react';
 
 import { hexToRgb } from '../../utils/colorConversion';
 import ColorCard from '../atoms/ColorCard';
 import { IColor } from '../../interfaces/IDesign';
 
+import { event } from 'cypress/types/jquery';
+
 interface IColorCollection {
   color: string;
   paletteName: string;
   colors: IColor[];
   newColor: IColor;
+  errorMessage: string;
   showColorPicker?: (event: any) => void;
   addColor: (sectionId: string, colorId?: string, hexCode?: string) => void;
 }
@@ -19,12 +22,14 @@ const ColorCollection = ({
   colors,
   color,
   newColor,
+  errorMessage,
   showColorPicker,
-  addColor,
+  addColor
 }: IColorCollection) => {
   const name = paletteName.charAt(0).toUpperCase() + paletteName.slice(1);
 
   const addNewColor = (event: React.MouseEvent<HTMLInputElement>) => {
+
     showColorPicker(event);
     addColor(paletteName);
   };
@@ -47,7 +52,7 @@ const ColorCollection = ({
       <Text h3>{name}</Text>
       <Grid.Container title={'grid-' + name} gap={2} css={{ marginTop: '$1', p: 0 }}>
         {colors.map((colorItem, index) => (
-          <Grid title={'card'+index} key={index} onClick={handleColorSelected}>
+          <Grid title={'card' + index} key={index} onClick={handleColorSelected}>
             {colorItem._id !== newColor._id ? (
               <div
                 id={colorItem._id}
@@ -71,7 +76,26 @@ const ColorCollection = ({
           </Grid>
         )}
       </Grid.Container>
+      <Text
+        title="errorMsg"
+        small
+        weight="bold"
+        color="white"
+        hidden={errorMessage == ''}
+        css={{
+          width: '100%',
+          padding: '.2rem',
+          backgroundColor: '#EF4444',
+          position: 'absolute',
+          bottom: '0',
+          left: '0',
+          textAlign: 'center',
+        }}
+      >
+        {errorMessage}
+      </Text>
     </Card>
+
   );
 };
 
