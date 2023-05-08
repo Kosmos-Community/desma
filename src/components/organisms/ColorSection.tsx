@@ -74,8 +74,8 @@ const ColorSection = () => {
     const colorSelected = section.find((item) => item._id === colorId);
     if (!colorSelected) return;
     colorSelected.hexCode = color;
-    if (paletteId !== 'backgroundColors'
-      && !ccc.isLevelAA(paletteWithoutId['backgroundColors'][0].hexCode, colorSelected.hexCode, 16)) {
+    if (paletteId !== 'backgroundColors' && paletteWithoutId['backgroundColors'].length !== 0) {
+      if (!ccc.isLevelAA(paletteWithoutId['backgroundColors'][0].hexCode, colorSelected.hexCode, 16)) {
         setErrorMsg((prevErrorMessages) => ({
           ...prevErrorMessages,
           [paletteId]: `The color ${color} in ${paletteId} doesn't pass AA contrast test. To know more, visit the official WCAG website.`,
@@ -86,7 +86,7 @@ const ColorSection = () => {
           [paletteId]: '',
         }));
       }
-
+    }
   };
 
   return (
