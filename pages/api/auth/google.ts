@@ -3,12 +3,12 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/config';
 import { NextApiResponse, NextApiRequest } from "next";
 import { AUTH_URL } from "../../../src/utils/constants";
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENTE_SECRET } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 
 const oauth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENTE_SECRET,
+  GOOGLE_CLIENT_SECRET,
   'http://localhost:3000/api/auth/google'
 );
 
