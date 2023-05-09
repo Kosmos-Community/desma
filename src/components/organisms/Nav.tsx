@@ -3,6 +3,10 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { HiHome, HiUserCircle, HiOutlineLogout } from 'react-icons/hi';
 import useUserContext from '../../context/UserContext';
+import { useTheme as useNextTheme } from 'next-themes'
+import { Switch, useTheme } from '@nextui-org/react'
+import { MoonIcon } from '../../../assets/icons/MoonIcon'
+import { SunIcon } from '../../../assets/icons/SunIcon'
 
 const Nav = () => {
   const router = useRouter();
@@ -10,12 +14,16 @@ const Nav = () => {
   const [avatarHovered, setAvatarHovered] = useState<boolean>(false);
   let onMouseLeavingAvatar;
 
+  const { setTheme } = useNextTheme();
+  const { isDark, type } = useTheme();
+
   const slideIn = keyframes({
     '0%': { transform: 'translateY(-5px)' },
     '100%': { transform: 'translateY(0)' },
   });
 
   const handleSignOut = async () => {
+    console.log("Hola")
     const resSignOut = await fetch('/api/logout', {
       method: 'POST',
     });
@@ -106,6 +114,15 @@ const Nav = () => {
           </Link>
         </Button>
       </Button.Group>
+      <div>
+      <Switch
+        css={{ marginLeft: '1rem' }}
+        checked={isDark}
+        iconOn={<MoonIcon filled size={undefined} height={undefined} width={undefined} label={undefined} />}
+        iconOff={<SunIcon filled size={undefined} height={undefined} width={undefined} label={undefined} />}
+        onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+      />
+      </div>
     </div>
   );
 
