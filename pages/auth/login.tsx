@@ -44,11 +44,21 @@ const LoginScreen = () => {
     if (response.ok) {
       router.push('/dashboard');
     } else {
-      setErrorMsg('User not found');
+      setErrorMsg('Invalid Credentials');
     }
 
     setLoading(false);
   };
+
+  const googleLogin = async () => {
+    setLoading(true);
+    const response = await fetch('/api/auth/google', {method: 'GET'});
+    const {url} = await response.json();
+    console.log(url);
+    router.push(url);
+    setLoading(false);
+  };
+
 
   return (
     <Container
@@ -93,6 +103,13 @@ const LoginScreen = () => {
       <Spacer y={2} />
       <Button css={{ width: '100%', marginBottom: '.5rem' }} onClick={onFormSubmit}>
         {loading ? <Loading color="white" size="sm" /> : 'Login'}
+      </Button>
+      {/* Login with Google button */}
+      <Button
+        css={{ width: '100%', marginBottom: '.5rem' }}
+        onClick={() => googleLogin()}
+      >
+        Login with Google
       </Button>
       <Text small>
         Need an account? <Link href="/auth/register">Register</Link>

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import validator from 'validator';
 import { serverSidePropsAuth } from '../../lib/authServerSide';
 import { ironOptions } from '../../lib/config';
+import { REGISTER_URL } from '../../src/utils/constants';
 
 const RegisterScreen = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const RegisterScreen = () => {
     setErrorMsg('');
     setLoading(true);
 
-    const reqRegister = await fetch('https://desma-test.onrender.com/api/users', {
+    const reqRegister = await fetch(REGISTER_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,6 +90,15 @@ const RegisterScreen = () => {
     setLoading(false);
 
     return;
+  };
+
+  const googleRegister = async () => {
+    setLoading(true);
+    const response = await fetch('/api/auth/register/google', {method: 'GET'});
+    const {url} = await response.json();
+    console.log(url);
+    router.push(url);
+    setLoading(false);
   };
 
   return (
@@ -147,6 +157,12 @@ const RegisterScreen = () => {
       <Spacer y={2} />
       <Button name="loginButn" onClick={onRegister} css={{ width: '100%', marginBottom: '.5rem' }}>
         {loading ? <Loading color="white" size="sm" /> : 'Register'}
+      </Button>
+      <Button
+        css={{ width: '100%', marginBottom: '.5rem' }}
+        onClick={() => googleRegister()}
+      >
+        Register with Google
       </Button>
       <Text small>
         Already have an account? <Link href="/auth/login">Login</Link>

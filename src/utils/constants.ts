@@ -23,3 +23,4 @@ export const AUTH_URL = `${API_URL}/users/login`;
 export const PALETTE_URL = `${API_URL}/palette`;
 export const FONT_URL = `${API_URL}/fonts`;
 export const SPACING_URL = `${API_URL}/spacings`;
+export const REGISTER_URL = `${API_URL}/users`;
