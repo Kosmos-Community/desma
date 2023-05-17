@@ -3,10 +3,11 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../../lib/config';
 import { NextApiResponse, NextApiRequest } from "next";
 import { REGISTER_URL } from "../../../../src/utils/constants";
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 const oauth2Client = new google.auth.OAuth2(
-  '881007498881-bsdv3orjkqs19u6v3k92du8fdc9fsm7b.apps.googleusercontent.com',
-  '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',
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
   'http://localhost:3000/api/auth/register/google'
 );
 
